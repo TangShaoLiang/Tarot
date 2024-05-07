@@ -252,10 +252,12 @@
           imgSrc: './img/cardImg/outline/outline21.jpg'
         },
       ]
-      // 生成随机5张牌
+      // 生成随机牌
       this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
       // 添加监听器
       this.listenEvent();
+      // 预加载图片
+      this.preloadImage();
     }
 
 
@@ -346,6 +348,17 @@
           this.dom.dialog.close();
         }, 100);
       }
+    }
+    // 通过创建Image对象的方式，预加载单个图片
+    preloadImage(url) {
+      var img = new Image();
+      img.src = url;
+    }
+    // 按打乱后的次序，预加载所有卡牌的图片
+    preloadImages() {
+      this.cardIdList.forEach(cardId => {
+        this.preloadImage(this.cardInfo[cardId].imgSrc);
+      })
     }
   }
 
@@ -463,6 +476,7 @@
     top: 0;
     transition: all .1s ease-out;
   }
+
   .card-dialog-info-title {
     text-align: center;
     font-size: 48px;
@@ -506,6 +520,7 @@
       width: 60vw;
       display: flex;
     }
+
     .card-dialog-img-container {
       height: 70vh;
       margin-right: 2rem;
