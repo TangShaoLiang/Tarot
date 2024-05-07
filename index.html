@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarot</title>
+</head>
+
+<body>
+  <!-- 多种发牌动画 -->
+  <!-- 收牌洗牌动画 -->
+  <!-- 翻牌动画 -->
+  <!-- 展示卡牌详情动画 -->
+  <main>
+    <div class="card" data-en-name="" data-roman-numeral=""></div>
+    <div class="card" data-en-name="" data-roman-numeral=""></div>
+    <div class="card" data-en-name="" data-roman-numeral=""></div>
+    <!-- <div class="card"></div>
+    <div class="card"></div> -->
+
+  </main>
+
+  <dialog class="card-dialog hidden">
+    <div class="card-dialog-container">
+      <div class="card-dialog-img-container">
+        <img class="card-dialog-img" src="./img/cardImg/outline/outline0.jpg" alt="">
+      </div>
+      <div class="card-dialog-info-container">
+        <h3 class="card-dialog-info-title">名称</h3>
+        <p class="card-dialog-info-keyword">关键词，关键词，关键词，关键词</p>
+        <p class="card-dialog-info-disc">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</p>
+      </div>
+    </div>
+  </dialog>
+
+
+</body>
+
+
+<script>
+  class UI {
+    constructor() {
+      // 整理好dom数据
+      this.dom = {
+        cardList: document.getElementsByClassName('card'),
+        dialog: document.querySelector('.card-dialog'),
+      }
+      this.dom.dialogImg = this.dom.dialog.querySelector('.card-dialog-img');
+      this.dom.dialogInfoTitle = this.dom.dialog.querySelector('.card-dialog-info-title');
+      this.dom.dialogInfoKeyword = this.dom.dialog.querySelector('.card-dialog-info-keyword');
+      this.dom.dialogInfoDisc = this.dom.dialog.querySelector('.card-dialog-info-disc');
+
+      // 卡牌的信息
+      this.cardInfo = [
+        {
+          number: 0,
+          romanNumeral: 'O',
+          name: '愚者',
+          enName: 'The Fool',
+          keyword: '象征新的开始、无忧无虑和自由精神。',
+          disc: '愚人是一个站在悬崖边上的年轻人，手持一朵白玫瑰，肩上有一只小狗（象征忠诚）。这张牌通常代表新的旅程和冒险的开始，但也提醒人们对未来保持警惕和谨慎。',
+          imgSrc: './img/cardImg/outline/outline0.jpg'
+        },
+        {
+          number: 1,
+          romanNumeral: 'I',
+          name: '魔术师',
+          enName: 'The Magician',
+          keyword: '象征力量、控制和意志力。',
+          disc: '魔术师是一个站在桌前的人，桌上放有各种象征性的物品，如剑、杯、杖和硬币，代表四大元素。这张牌通常代表创造力和实现目标的能力。',
+          imgSrc: './img/cardImg/outline/outline1.jpg'
+        },
+        {
+          number: 2,
+          romanNumeral: 'II',
+          name: '女祭司',
+          enName: 'The High Priestess',
+          keyword: '象征直觉、神秘和智慧。',
+          disc: '女祭司是一个坐在月亮和两根柱子之间的女性，头戴月亮冠冕，手持一本封闭的书。这张牌通常代表内在的知识和直觉的力量。',
+          imgSrc: './img/cardImg/outline/outline2.jpg'
+        },
+        {
+          number: 3,
+          romanNumeral: 'III',
+          name: '女皇',
+          enName: 'The Empress',
+          keyword: '象征母性、丰饶和创造力。',
+          disc: '女皇是一个坐在宝座上的女性，周围是丰富的自然景色。这张牌通常代表繁荣、生育和女性的力量。',
+          imgSrc: './img/cardImg/outline/outline3.jpg'
+        },
+        {
+          number: 4,
+          romanNumeral: 'IV',
+          name: '皇帝',
+          enName: 'The Emperor',
+          keyword: '象征权威、领导和组织。',
+          disc: '皇帝是一个坐在宝座上的男性，手持一把剑和一个球体。这张牌通常代表秩序、控制和男性的力量。',
+          imgSrc: './img/cardImg/outline/outline4.jpg'
+        },
+        {
+          number: 5,
+          romanNumeral: 'V',
+          name: '教皇',
+          enName: 'The Hierophant',
+          keyword: '象征传统、信仰和教育。',
+          disc: '教皇是一个坐在宝座上的宗教领袖，头戴三重冠，手持三叉戟。这张牌通常代表对知识和智慧的寻求，以及传统和机构的尊重。',
+          imgSrc: './img/cardImg/outline/outline5.jpg'
+        },
+        {
+          number: 6,
+          romanNumeral: 'VI',
+          name: '恋人',
+          enName: 'The Lovers',
+          keyword: '象征爱情、关系和选择。',
+          disc: '恋人是一对亚当和夏娃式的情侣，上方有一个天使。这张牌通常代表爱情和关系中的选择和结合。',
+          imgSrc: './img/cardImg/outline/outline6.jpg'
+        },
+        {
+          number: 7,
+          romanNumeral: 'VII',
+          name: '战车',
+          enName: 'The Chariot',
+          keyword: '象征胜利、控制和意志力。',
+          disc: '战车是一个战士站在一辆由两只狮子拉的马车上。这张牌通常代表通过内在力量和决心克服障碍。',
+          imgSrc: './img/cardImg/outline/outline7.jpg'
+        },
+        {
+          number: 8,
+          romanNumeral: 'VIII',
+          name: '力量',
+          enName: 'Strength',
+          keyword: '象征勇气、自信和自制力。',
+          disc: '力量是一个女性温柔地关闭了一只狮子的嘴。这张牌通常代表内在的力量和克服恐惧的能力。',
+          imgSrc: './img/cardImg/outline/outline8.jpg'
+        },
+        {
+          number: 9,
+          romanNumeral: 'IX',
+          name: '隐者',
+          enName: 'The Hermit',
+          keyword: '象征内省、反思和寻求智慧。',
+          disc: '隐士是一个站在山顶上的老人，手持一根点燃的灯笼。这张牌通常代表寻求指导和内在的真理。',
+          imgSrc: './img/cardImg/outline/outline9.jpg'
+        },
+        {
+          number: 10,
+          romanNumeral: 'X',
+          name: '命运之轮',
+          enName: 'Wheel of Fortune',
+          keyword: '象征命运、变化和周期。',
+          disc: '命运之轮是一个巨大的轮子，上面有各种符号，包括蛇、天使和狮子。这张牌通常代表生活中的变化和周期性事件。',
+          imgSrc: './img/cardImg/outline/outline10.jpg'
+        },
+        {
+          number: 11,
+          romanNumeral: 'XI',
+          name: '正义',
+          enName: 'Justice',
+          keyword: '象征公平、平衡和法律。',
+          disc: '正义是一个坐在宝座上的女性，手持天平和小剑。这张牌通常代表公正和道德的决策。',
+          imgSrc: './img/cardImg/outline/outline11.jpg'
+        },
+        {
+          number: 12,
+          romanNumeral: 'XII',
+          name: '倒吊人',
+          enName: 'The Hermit',
+          keyword: '象征牺牲、等待和启示。',
+          disc: '吊人是一个倒挂的人形，脚踝被绑在一根杆子上。这张牌通常代表自我牺牲和从不同角度看问题。',
+          imgSrc: './img/cardImg/outline/outline12.jpg'
+        },
+        {
+          number: 13,
+          romanNumeral: 'XIII',
+          name: '死神',
+          enName: 'Death',
+          keyword: '象征结束、转变和新生。',
+          disc: '死神是一个穿着黑色盔甲的骑士，骑在白马上。这张牌通常代表生命中的一个阶段的结束和另一个阶段的新开始。',
+          imgSrc: './img/cardImg/outline/outline13.jpg'
+        },
+        {
+          number: 14,
+          romanNumeral: 'XIV',
+          name: '节制',
+          enName: 'Temperance',
+          keyword: '象征平衡、调和和耐心。',
+          disc: '节制是一个天使在两个水杯之间倒水。这张牌通常代表在相反力量之间寻找平衡和和谐。',
+          imgSrc: './img/cardImg/outline/outline14.jpg'
+        },
+        {
+          number: 15,
+          romanNumeral: 'XV',
+          name: '恶魔',
+          enName: 'The Devil',
+          keyword: '象征欲望、物质主义和束缚。',
+          disc: '恶魔是一个坐在宝座上的巴风特，背后有两根燃烧的火炬。这张牌通常代表内心的诱惑和对外在物质的依赖。',
+          imgSrc: './img/cardImg/outline/outline15.jpg'
+        },
+        {
+          number: 16,
+          romanNumeral: 'XVI',
+          name: '塔',
+          enName: 'The Tower',
+          keyword: '象征崩溃、变革和觉醒。',
+          disc: '塔是一个被闪电击中的塔楼，顶部有王冠，人们从塔中坠落。这张牌通常代表生活中的突然变化和崩溃。',
+          imgSrc: './img/cardImg/outline/outline16.jpg'
+        },
+        {
+          number: 17,
+          romanNumeral: 'XVII',
+          name: '星星',
+          enName: 'The Star',
+          keyword: '象征希望、灵感和信心。',
+          disc: '星星是一个裸体女性在河边倒水，周围有七颗星星。这张牌通常代表希望、灵感和对未来的积极展望。',
+          imgSrc: './img/cardImg/outline/outline17.jpg'
+        },
+        {
+          number: 18,
+          romanNumeral: 'XVIII',
+          name: '月亮',
+          enName: 'The Moon',
+          keyword: '象征直觉、潜意识和幻想。',
+          disc: '月亮是一个月亮照耀下的场景，有鱼、蟹和一个长发女性。这张牌通常代表梦境、直觉和对未知的探索。',
+          imgSrc: './img/cardImg/outline/outline18.jpg'
+        },
+        {
+          number: 19,
+          romanNumeral: 'XIX',
+          name: '太阳',
+          enName: 'The Sun',
+          keyword: '象征快乐、成功和积极性。',
+          disc: '太阳是一个太阳照耀下的场景，有孩子、马和太阳花。这张牌通常代表快乐、成功和积极的生活态度。',
+          imgSrc: './img/cardImg/outline/outline19.jpg'
+        },
+        {
+          number: 20,
+          romanNumeral: 'XX',
+          name: '审判',
+          enName: 'Judgment',
+          keyword: '象征反思、评估和重生。',
+          disc: '审判是一个天使吹响号角，周围是复活的人群，他们从坟墓中站起来，面向天空中的光。这张牌通常代表对过去的审视和清算，以及从旧的生活方式中解脱和重生。',
+          imgSrc: './img/cardImg/outline/outline20.jpg'
+        },
+        {
+          number: 21,
+          romanNumeral: 'XXI',
+          name: '世界',
+          enName: 'The World',
+          keyword: '象征完成、整体性和成就。',
+          disc: '世界是一个舞者在一个由各种符号和元素组成的圆形或椭圆形的图案中跳舞，这些符号代表了各个大阿卡纳牌的主题。这张牌通常代表个人旅程的完成、灵魂的觉醒和对生活的全面理解。',
+          imgSrc: './img/cardImg/outline/outline21.jpg'
+        },
+      ]
+      // 生成随机5张牌
+      this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
+      // 添加监听器
+      this.listenEvent();
+    }
+
+
+
+    // 监听翻牌事件
+    listenEvent() {
+      Array.from(this.dom.cardList).forEach((card, index) => {
+        card.addEventListener('click', () => { this.flip(card, index) }, { once: true });
+      });
+      this.dom.dialog.addEventListener('click', (event) => { this.closeCardInfo(event) });
+    }
+    // 翻牌
+    flip(card, index) {
+      card.classList.add('flipped');
+      card.addEventListener('click', () => { this.showCardInfo(card) });
+      setTimeout(() => {
+        card.info = this.cardInfo[this.cardIdList[index]];
+        card.style.backgroundImage = `url(${card.info.imgSrc})`;
+        this.showCardRomanNumeral(card);
+        this.showCardEnName(card);
+      }, 250);
+    }
+    showCardRomanNumeral(card) {
+      card.setAttribute('data-roman-numeral', card.info.romanNumeral);
+    }
+    showCardEnName(card) {
+      card.setAttribute('data-en-name', card.info.enName);
+    }
+    // 展示卡牌详情
+    showCardInfo(card) {
+      // 设置会话框中卡牌的图片、名称、说明
+      this.dom.dialogImg.src = card.info.imgSrc;
+      this.dom.dialogInfoTitle.innerText = card.info.name;
+      this.dom.dialogInfoKeyword.innerText = card.info.keyword;
+      this.dom.dialogInfoDisc.innerText = card.info.disc;
+      // 展示带遮罩的会话框
+      this.dom.dialog.showModal();
+      // 如果不延时10ms（≤1ms不行），首次展示会话框时，end.y会有偏差，在5px左右（原因未知，猜测是由于浏览器的渲染机制，重排需要一定时间）
+      setTimeout(() => {
+        this.showCardInfoAnimate(card);
+      }, 10);
+    }
+    // 动画，卡牌逐渐放大并出现到会话框同样的位置
+    showCardInfoAnimate(card) {
+      // 获取起始位置、尺寸，以及目标位置、尺寸
+      var fromImgRect = card.getBoundingClientRect()
+      var toImgRect = this.dom.dialogImg.getBoundingClientRect()
+      var start = {
+        x: fromImgRect.left,
+        y: fromImgRect.top,
+        w: fromImgRect.width,
+        h: fromImgRect.height
+      }
+      var end = {
+        x: toImgRect.left,
+        y: toImgRect.top,
+        w: toImgRect.width,
+        h: toImgRect.height
+      }
+      console.log(start, end);
+      // 创建临时卡牌，设置其初始位置、大小，加入到dom中
+      var tempImg = new Image();
+      tempImg.classList.add('card-dialog-img-show');
+      tempImg.src = card.info.imgSrc;
+      tempImg.style.transform = `translateX(${start.x}px) translateY(${start.y}px)`;
+      tempImg.style.width = `${start.w}px`;
+      tempImg.style.height = `${start.h}px`;
+      document.body.appendChild(tempImg);
+      // 强制渲染
+      tempImg.clientWidth
+      // 设置动画结束后，临时卡牌自动销毁
+      tempImg.addEventListener('transitionend', () => {
+        this.dom.dialog.classList.remove('hidden');
+        setTimeout(() => {
+          tempImg.remove();
+        }, 100);
+      }, { once: true });
+      // 设置临时卡牌的位置、大小为目标值，利用transition实现移动动画效果
+      tempImg.style.transform = `translateX(${end.x}px) translateY(${end.y}px)`;
+      tempImg.style.width = `${end.w}px`;
+      tempImg.style.height = `${end.h}px`;
+    }
+    // 关闭卡牌详情
+    closeCardInfo(event) {
+      if (event.target.classList[0] === 'card-dialog' || event.target.classList[0] === 'card-dialog-container') {
+        this.dom.dialog.classList.add('hidden');
+        setTimeout(() => {
+          this.dom.dialog.close();
+        }, 100);
+      }
+    }
+  }
+
+  var ui = new UI()
+
+</script>
+
+
+
+
+
+<style>
+  @font-face {
+    font-family: GeTeShi;
+    src: url('./font/锐字李林哥特体简.ttf');
+  }
+
+  body {
+    margin: 0;
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    width: 26vw;
+    aspect-ratio: 171/298;
+    max-width: 171px;
+    margin: 0 2.5vw;
+    border-radius: 10px;
+    background-color: white;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(66, 66, 66, .5) 20%, rgba(66, 66, 66, .5) 40%, transparent 40%, transparent 60%),
+      repeating-linear-gradient(90deg, rgba(66, 66, 66, .5) 20%, rgba(66, 66, 66, .5) 40%, transparent 40%, transparent 60%);
+    background-size: cover;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    transform: rotateY(0deg);
+  }
+
+  .card::before {
+    content: attr(data-roman-numeral);
+    line-height: 20px;
+    text-align: center;
+    font-family: GeTeShi;
+    display: block;
+    transform: translateY(-27px)
+  }
+
+  .card::after {
+    content: attr(data-en-name);
+    line-height: 20px;
+    text-align: center;
+    font-family: GeTeShi;
+    display: block;
+    transform: translateY(290px)
+  }
+
+  .card.flipped {
+    animation: flip .5s ease-in-out;
+  }
+
+  .card.show-info {
+    transition: all .5s ease-in;
+  }
+
+  @keyframes flip {
+    0% {
+      transform: rotateY(0deg);
+    }
+
+    50% {
+      transform: rotateY(90deg);
+    }
+
+    50% {
+      transform: rotateY(-90deg);
+    }
+
+    100% {
+      transform: rotateY(0deg);
+    }
+  }
+
+  .card-dialog {
+    border: none;
+    padding: 0;
+    opacity: 1;
+    background-color: transparent;
+    transition: opacity .1s ease-in;
+  }
+
+  .card-dialog-container {
+    padding: 2rem;
+    border-radius: 20px;
+    background-color: white;
+  }
+
+  .card-dialog.hidden {
+    opacity: 0;
+    transition: opacity .1s ease-in;
+  }
+
+  .card-dialog-img {
+    border-radius: 20px;
+  }
+
+  .card-dialog-img-show {
+    border-radius: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all .1s ease-out;
+  }
+  .card-dialog-info-title {
+    text-align: center;
+    font-size: 48px;
+    margin-block-start: 1rem;
+    margin-block-end: 1rem;
+    font-family: GeTeShi;
+  }
+
+  .card-dialog-info-keyword {
+    text-align: center;
+  }
+
+  /* 竖屏时，宽高比小于1:1 */
+  @media (max-aspect-ratio: 1/1) {
+    .card::after {
+      transform: translateY(43vw)
+    }
+
+    .card-dialog-container {
+      padding-top: 15vw;
+      display: block;
+    }
+
+    .card-dialog-img-container {
+      width: 70vw;
+      margin: auto;
+    }
+
+    .card-dialog-img {
+      width: 100%;
+    }
+
+    .card-dialog-info-disc {
+      width: fit-content;
+    }
+  }
+
+  /* 横屏时，宽高比大于1:1 */
+  @media (min-aspect-ratio: 1/1) {
+    .card-dialog-container {
+      width: 60vw;
+      display: flex;
+    }
+    .card-dialog-img-container {
+      height: 70vh;
+      margin-right: 2rem;
+    }
+
+    .card-dialog-img {
+      height: 100%;
+    }
+  }
+</style>
+
+
+</html>
