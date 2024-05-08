@@ -252,8 +252,10 @@
           imgSrc: './img/cardImg/outline/outline21.jpg'
         },
       ]
-      // 生成随机牌
-      this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
+      // 该种牌阵所需的卡牌数量
+      this.cardCount = 3;
+      // 生成随机牌组，抽取前cardCount张
+      this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5).slice(0, this.cardCount);
       // 添加监听器
       this.listenEvent();
       // 预加载图片
