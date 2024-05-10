@@ -293,7 +293,7 @@
       const hand = this.createTempElement('img', handStartData, handEndData, transitionDelay);
       // 沿着手的轨迹生成卡牌
       for (let i = 0; i < this.cardInfo.length; i++) {
-        const delay = i === this.cardInfo.length - 1 ? 1990 + transitionDelay : 2000 / (this.cardInfo.length - 1) * i + transitionDelay
+        const delay = i === this.cardInfo.length - 1 ? 1490 + transitionDelay : 1500 / (this.cardInfo.length - 1) * i + transitionDelay
         setTimeout(() => {
           const handRect = hand.getBoundingClientRect()
           let card = document.createElement('div')
@@ -514,12 +514,11 @@
     max-width: 171px;
     max-height: 298px;
     position: fixed;
-    background-color: white;
     background-size: cover;
     top: 0;
     /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
     transform-origin: 50% -70vw;
-    transition: transform 2s linear;
+    transition: transform 1.5s linear;
     z-index: 999;
   }
 
@@ -589,7 +588,7 @@
   .card-dialog {
     border: none;
     padding: 0;
-    opacity: 1;
+    outline: none;
     background-color: transparent;
     transition: opacity .1s ease-in;
   }
