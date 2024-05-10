@@ -288,6 +288,7 @@
           transform: 'rotate(-20deg) translateY(-50%)'
         }
       }
+      // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
       const transitionDelay = 1000
       const hand = this.createTempElement('img', handStartData, handEndData, transitionDelay);
       // 沿着手的轨迹生成卡牌
@@ -328,7 +329,7 @@
               card.remove()
               card = placeholder
               // 设置翻牌事件监听器
-              card.addEventListener('click', () => { this.flip(card, index); }, { once: true });
+              card.addEventListener('click', () => { this.flipCard(card, index); }, { once: true });
             })
             if (this.cardFlippedCount === this.cardCount) {
               // 播放收牌动画
@@ -344,7 +345,7 @@
       }
     }
     // 翻牌
-    flip(card, index) {
+    flipCard(card, index) {
       card.classList.add('flipped');
       card.addEventListener('click', () => { this.showCardInfo(card) });
       setTimeout(() => {
@@ -446,7 +447,7 @@
         }
       }
       // 创建临时卡牌，运行动画，动画结束后，临时卡牌自动销毁
-      this.createTempElement('img', startData, endData, 100, () => {
+      this.createTempElement('img', startData, endData, 0, 100, () => {
         this.dom.dialog.classList.remove('hidden');
       })
     }
@@ -684,7 +685,7 @@
     }
 
     .card-dialog-container {
-      width: 50vw;
+      width: 60vw;
       display: flex;
     }
 
