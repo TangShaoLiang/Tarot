@@ -13,9 +13,9 @@
   <!-- 翻牌动画 -->
   <!-- 展示卡牌详情动画 -->
   <main>
-    <div class="card" data-en-name="" data-roman-numeral=""></div>
-    <div class="card" data-en-name="" data-roman-numeral=""></div>
-    <div class="card" data-en-name="" data-roman-numeral=""></div>
+    <div class="card placeholder" data-en-name="" data-roman-numeral=""></div>
+    <div class="card placeholder" data-en-name="" data-roman-numeral=""></div>
+    <div class="card placeholder" data-en-name="" data-roman-numeral=""></div>
     <!-- <div class="card"></div>
     <div class="card"></div> -->
 
@@ -254,12 +254,16 @@
       ]
       // 该种牌阵所需的卡牌数量
       this.cardCount = 3;
-      // 生成随机牌组，抽取前cardCount张
-      this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5).slice(0, this.cardCount);
+      // 生成随机牌组
+      this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
+      // 截取前cardCount张（暂时决定不截取）
+      // this.cardIdList = this.cardIdList.slice(0, this.cardCount);
       // 添加监听器
       this.listenEvent();
       // 预加载图片
-      this.preloadImages();
+      // this.preloadImages();
+      // 生成牌组
+      this.createDeck();
     }
 
 
@@ -270,6 +274,45 @@
         card.addEventListener('click', () => { this.flip(card, index) }, { once: true });
       });
       this.dom.dialog.addEventListener('click', (event) => { this.closeCardInfo(event) });
+    }
+    // 生成牌组
+    createDeck() {
+      // 创建从屏幕顶部划过的手
+      const handStartData = {
+        className: 'hand',
+        style: {
+          transform: 'rotate(20deg)'
+        }
+      }
+      const handEndData = {
+        style: {
+          transform: 'rotate(-20deg)'
+        }
+      }
+      var hand = this.createTempElement('img', handStartData, handEndData);
+      // 沿着手的轨迹生成卡牌
+      for (let i = 0; i < this.cardInfo.length; i++) {
+        setTimeout(() => {
+          var handRect = hand.getBoundingClientRect()
+          var card = document.createElement('div')
+          var handX = handRect.left + handRect.width / 2 - hand.offsetWidth / 2
+          var handY = handRect.top + handRect.height / 2 - hand.offsetHeight / 2
+          card.classList.add('card')
+          card.classList.add('card-in-hand')
+          card.style.transform = `translate(${handX}px, ${handY}px) rotate(${20 - 40 / (this.cardInfo.length - 1) * i}deg)`
+
+          // 检测抽牌事件
+          // card.addEventListener('click', () => {
+          //   card.classList.remove('card-in-hand')
+          //   card.classList.add('flipable')
+          //   var placeholderRect = document.getBoundingClientRect()
+          //   card.transform = `translate(${cardX}px, ${cardY}px) rotate(${20 - 40 / this.cardInfo.length * i}deg)`
+          // })
+
+          // 加入到dom中
+          document.body.appendChild(card)
+        }, 2000 / (this.cardInfo.length - 1) * i);
+      }
     }
     // 翻牌
     flip(card, index) {
@@ -302,6 +345,45 @@
         this.showCardInfoAnimate(card);
       }, 10);
     }
+    // 创建临时元素通用，返回创建的临时元素（元素类型，起始属性，目标属性，自毁延迟时间，自毁前的回调函数）
+    createTempElement(elementType, startData, endData, removeDelay = 0, callback = () => { }) {
+      // 创建临时元素
+      var tempE = document.createElement(elementType);
+      // 设置初始状态
+      for (const key in startData) {
+        if (key === 'style') {
+          for (const k in startData.style) {
+            tempE.style[k] = startData.style[k];
+          }
+        }
+        else {
+          tempE[key] = startData[key];
+        }
+      }
+      // 加入到dom中
+      document.body.appendChild(tempE);
+      // 强制渲染
+      tempE.clientWidth
+      // 设置动画结束后，临时卡牌自动销毁
+      tempE.addEventListener('transitionend', () => {
+        callback();
+        setTimeout(() => {
+          tempE.remove();
+        }, removeDelay);
+      }, { once: true })
+      // 设置目标状态，利用transition使临时元素运动
+      for (const key in endData) {
+        if (key === 'style') {
+          for (const k in endData.style) {
+            tempE.style[k] = endData.style[k];
+          }
+        }
+        else {
+          tempE[key] = endData[key];
+        }
+      }
+      return tempE
+    }
     // 动画，卡牌逐渐放大并出现到会话框同样的位置
     showCardInfoAnimate(card) {
       // 获取起始位置、尺寸，以及目标位置、尺寸
@@ -319,28 +401,23 @@
         w: toImgRect.width,
         h: toImgRect.height
       }
-      console.log(start, end);
-      // 创建临时卡牌，设置其初始位置、大小，加入到dom中
-      var tempImg = new Image();
-      tempImg.classList.add('card-dialog-img-show');
-      tempImg.src = card.info.imgSrc;
-      tempImg.style.transform = `translateX(${start.x}px) translateY(${start.y}px)`;
-      tempImg.style.width = `${start.w}px`;
-      tempImg.style.height = `${start.h}px`;
-      document.body.appendChild(tempImg);
-      // 强制渲染
-      tempImg.clientWidth
-      // 设置动画结束后，临时卡牌自动销毁
-      tempImg.addEventListener('transitionend', () => {
+      var startData = {
+        className: 'card-dialog-img-show',
+        src: card.info.imgSrc,
+        style: {
+          transform: `translateX(${start.x}px) translateY(${start.y}px)`,
+          width: `${start.w}px`,
+        }
+      }
+      var endData = {
+        style: {
+          transform: `translateX(${end.x + (end.w - start.w) / 2}px) translateY(${end.y + (end.h - start.h) / 2}px) scale(${end.w / start.w})`
+        }
+      }
+      // 创建临时卡牌，运行动画，动画结束后，临时卡牌自动销毁
+      this.createTempElement('img', startData, endData, 100, () => {
         this.dom.dialog.classList.remove('hidden');
-        setTimeout(() => {
-          tempImg.remove();
-        }, 100);
-      }, { once: true });
-      // 设置临时卡牌的位置、大小为目标值，利用transition实现移动动画效果
-      tempImg.style.transform = `translateX(${end.x}px) translateY(${end.y}px)`;
-      tempImg.style.width = `${end.w}px`;
-      tempImg.style.height = `${end.h}px`;
+      })
     }
     // 关闭卡牌详情
     closeCardInfo(event) {
@@ -389,22 +466,37 @@
     height: 100vh;
   }
 
-  .card {
-    width: 26vw;
+  .card,
+  .hand {
     aspect-ratio: 171/298;
     max-width: 171px;
-    margin: 0 2.5vw;
+    max-height: 298px;
     border-radius: 10px;
     background-color: white;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(66, 66, 66, .5) 20%, rgba(66, 66, 66, .5) 40%, transparent 40%, transparent 60%),
-      repeating-linear-gradient(90deg, rgba(66, 66, 66, .5) 20%, rgba(66, 66, 66, .5) 40%, transparent 40%, transparent 60%);
     background-size: cover;
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
     transform: rotateY(0deg);
   }
 
-  .card::before {
+  .hand {
+    position: fixed;
+    top: 0;
+    /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
+    transform-origin: 50% -70vw;
+    transition: transform 2s linear;
+    z-index: 999;
+  }
+  .card-in-hand {
+    position: fixed;
+    top: 0;
+  }
+
+  .placeholder {
+    margin: 0 2.5vw;
+  }
+
+  .card.flipable::before,
+  .card.flipped::before {
     content: attr(data-roman-numeral);
     line-height: 20px;
     text-align: center;
@@ -413,7 +505,7 @@
     transform: translateY(-27px)
   }
 
-  .card::after {
+  .card.flipped::after {
     content: attr(data-en-name);
     line-height: 20px;
     text-align: center;
@@ -493,6 +585,16 @@
 
   /* 竖屏时，宽高比小于1:1 */
   @media (max-aspect-ratio: 1/1) {
+
+    .card,
+    .hand {
+      width: 26vw;
+    }
+
+    .hand {
+      left: 37vw;
+    }
+
     .card::after {
       transform: translateY(43vw)
     }
@@ -518,6 +620,16 @@
 
   /* 横屏时，宽高比大于1:1 */
   @media (min-aspect-ratio: 1/1) {
+
+    .card,
+    .hand {
+      height: 40vh;
+    }
+
+    .hand {
+      left: calc(50vw - 40vh * 171 / 298 / 2);
+    }
+
     .card-dialog-container {
       width: 60vw;
       display: flex;
