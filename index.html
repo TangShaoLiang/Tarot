@@ -27,9 +27,9 @@
         <img class="card-dialog-img" src="./img/cardImg/outline/outline0.jpg" alt="">
       </div>
       <div class="card-dialog-info-container">
-        <h3 class="card-dialog-info-title">名称</h3>
-        <p class="card-dialog-info-keyword">关键词，关键词，关键词，关键词</p>
-        <p class="card-dialog-info-disc">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</p>
+        <h3 class="card-dialog-info-title"></h3>
+        <p class="card-dialog-info-keyword"></p>
+        <p class="card-dialog-info-disc"></p>
       </div>
     </div>
   </dialog>
@@ -43,7 +43,7 @@
     constructor() {
       // 整理好dom数据
       this.dom = {
-        cardList: document.getElementsByClassName('card'),
+        cardList: Array.from(document.getElementsByClassName('card')),
         dialog: document.querySelector('.card-dialog'),
       }
       this.dom.dialogImg = this.dom.dialog.querySelector('.card-dialog-img');
@@ -254,6 +254,8 @@
       ]
       // 该种牌阵所需的卡牌数量
       this.cardCount = 3;
+      // 已经翻开的牌的数量
+      this.cardFlippedCount = 0
       // 生成随机牌组
       this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
       // 截取前cardCount张（暂时决定不截取）
@@ -270,9 +272,6 @@
 
     // 监听翻牌事件
     listenEvent() {
-      Array.from(this.dom.cardList).forEach((card, index) => {
-        card.addEventListener('click', () => { this.flip(card, index) }, { once: true });
-      });
       this.dom.dialog.addEventListener('click', (event) => { this.closeCardInfo(event) });
     }
     // 生成牌组
@@ -289,26 +288,52 @@
           transform: 'rotate(-20deg) translateY(-50%)'
         }
       }
-      var hand = this.createTempElement('img', handStartData, handEndData);
+      const hand = this.createTempElement('img', handStartData, handEndData);
       // 沿着手的轨迹生成卡牌
       for (let i = 0; i < this.cardInfo.length; i++) {
-        var delay = i === this.cardInfo.length - 1 ? 2000 : 2000 / (this.cardInfo.length - 1) * i
+        const delay = i === this.cardInfo.length - 1 ? 1990 : 2000 / (this.cardInfo.length - 1) * i
         setTimeout(() => {
-          var handRect = hand.getBoundingClientRect()
-          var card = document.createElement('div')
-          var handX = handRect.left + handRect.width / 2 - hand.offsetWidth / 2
-          var handY = handRect.top + handRect.height / 2 - hand.offsetHeight / 2
+          const handRect = hand.getBoundingClientRect()
+          let card = document.createElement('div')
+          const cardInHandTransform = {
+            x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,
+            y: handRect.top + handRect.height / 2 - hand.offsetHeight / 2,
+            r: 20 - 40 / (this.cardInfo.length - 1) * i
+          }
           card.classList.add('card')
           card.classList.add('card-in-hand')
-          card.style.transform = `translate(${handX}px, ${handY}px) rotate(${20 - 40 / (this.cardInfo.length - 1) * i}deg)`
+          card.style.transform = `translate(${cardInHandTransform.x}px, ${cardInHandTransform.y}px) rotate(${cardInHandTransform.r}deg)`
 
-          // 检测抽牌事件
-          // card.addEventListener('click', () => {
-          //   card.classList.remove('card-in-hand')
-          //   card.classList.add('flipable')
-          //   var placeholderRect = document.getBoundingClientRect()
-          //   card.transform = `translate(${cardX}px, ${cardY}px) rotate(${20 - 40 / this.cardInfo.length * i}deg)`
-          // })
+          // 添加抽牌事件监听器
+          card.addEventListener('click', () => {
+            if (this.cardFlippedCount === this.cardCount) {
+              return
+            }
+            var index = this.cardFlippedCount++
+            const placeholder = this.dom.cardList[index]
+            console.log(this.dom.cardList);
+            const placeholderRect = placeholder.getBoundingClientRect()
+            const cardOnTableTransform = {
+              x: placeholderRect.left,
+              y: placeholderRect.top,
+            }
+            card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
+            // 当过渡动画结束
+            card.addEventListener('transitionend', () => {
+              // 将placeholder变为可翻开的卡牌
+              placeholder.classList.remove('placeholder')
+              placeholder.classList.add('flippable')
+              // 将当前card移除，card变量指向placeholder
+              card.remove()
+              card = placeholder
+              // 设置翻牌事件监听器
+              card.addEventListener('click', () => { this.flip(card, index); }, { once: true });
+            })
+            if (this.cardFlippedCount === this.cardCount) {
+              // 播放收牌动画
+              // 移除牌组中所有卡牌的抽牌事件监听器
+            }
+          })
 
           // 加入到dom中
           document.body.appendChild(card)
@@ -469,20 +494,24 @@
     height: 100vh;
   }
 
-  .card,
-  .hand {
+  .card{
     aspect-ratio: 171/298;
     max-width: 171px;
     max-height: 298px;
     border-radius: 10px;
     background-color: white;
     background-size: cover;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
     transform: rotateY(0deg);
+    /* z-index: 999; */
   }
 
   .hand {
+    aspect-ratio: 171/298;
+    max-width: 171px;
+    max-height: 298px;
     position: fixed;
+    background-color: white;
+    background-size: cover;
     top: 0;
     /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
     transform-origin: 50% -70vw;
@@ -493,13 +522,22 @@
   .card-in-hand {
     position: fixed;
     top: 0;
+    transition: all .3s ease-in;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
   .placeholder {
     margin: 0 2.5vw;
+    /* background-color: rgb(255, 242, 192);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1); */
+    opacity: 0;
+  }
+  .flippable {
+    margin: 0 2.5vw;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
-  .card.flipable::before,
+  .card.flippable::before,
   .card.flipped::before {
     content: attr(data-roman-numeral);
     line-height: 20px;
