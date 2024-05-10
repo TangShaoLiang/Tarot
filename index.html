@@ -494,7 +494,7 @@
     height: 100vh;
   }
 
-  .card{
+  .card {
     aspect-ratio: 171/298;
     max-width: 171px;
     max-height: 298px;
@@ -522,7 +522,6 @@
   .card-in-hand {
     position: fixed;
     top: 0;
-    transition: all .3s ease-in;
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
@@ -532,28 +531,29 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 1); */
     opacity: 0;
   }
+
   .flippable {
     margin: 0 2.5vw;
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
+  /* 使用rem作为单位而非vw或vh，存在隐患 */
   .card.flippable::before,
   .card.flipped::before {
     content: attr(data-roman-numeral);
-    line-height: 20px;
     text-align: center;
     font-family: GeTeShi;
     display: block;
-    transform: translateY(-27px)
+    transform: translateY(-1.5rem)
   }
 
   .card.flipped::after {
     content: attr(data-en-name);
-    line-height: 20px;
+    line-height: 14px;
     text-align: center;
     font-family: GeTeShi;
     display: block;
-    transform: translateY(290px)
+    transform: translateY(8.5rem)
   }
 
   .card.flipped {
@@ -641,6 +641,10 @@
       transform: translateY(43vw)
     }
 
+    .card-in-hand {
+      transition: all .25s ease-in;
+    }
+
     .card-dialog-container {
       padding-top: 15vw;
       display: block;
@@ -670,6 +674,10 @@
 
     .hand {
       left: calc(50vw - 40vh * 171 / 298 / 2);
+    }
+
+    .card-in-hand {
+      transition: all .2s ease-in;
     }
 
     .card-dialog-container {
