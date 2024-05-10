@@ -281,12 +281,12 @@
       const handStartData = {
         className: 'hand',
         style: {
-          transform: 'rotate(20deg)'
+          transform: 'rotate(20deg) translateY(-50%)'
         }
       }
       const handEndData = {
-        style: {
-          transform: 'rotate(-20deg)'
+        style: { 
+          transform: 'rotate(-20deg) translateY(-50%)'
         }
       }
       var hand = this.createTempElement('img', handStartData, handEndData);
