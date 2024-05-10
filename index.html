@@ -288,10 +288,11 @@
           transform: 'rotate(-20deg) translateY(-50%)'
         }
       }
-      const hand = this.createTempElement('img', handStartData, handEndData);
+      const transitionDelay = 1000
+      const hand = this.createTempElement('img', handStartData, handEndData, transitionDelay);
       // 沿着手的轨迹生成卡牌
       for (let i = 0; i < this.cardInfo.length; i++) {
-        const delay = i === this.cardInfo.length - 1 ? 1990 : 2000 / (this.cardInfo.length - 1) * i
+        const delay = i === this.cardInfo.length - 1 ? 1990 + transitionDelay : 2000 / (this.cardInfo.length - 1) * i + transitionDelay
         setTimeout(() => {
           const handRect = hand.getBoundingClientRect()
           let card = document.createElement('div')
@@ -374,7 +375,7 @@
       }, 10);
     }
     // 创建临时元素通用，返回创建的临时元素（元素类型，起始属性，目标属性，自毁延迟时间，自毁前的回调函数）
-    createTempElement(elementType, startData, endData, removeDelay = 0, callback = () => { }) {
+    createTempElement(elementType, startData, endData, transitionDelay = 0, removeDelay = 0, callback = () => { }) {
       // 创建临时元素
       var tempE = document.createElement(elementType);
       // 设置初始状态
@@ -400,16 +401,18 @@
         }, removeDelay);
       }, { once: true })
       // 设置目标状态，利用transition使临时元素运动
-      for (const key in endData) {
-        if (key === 'style') {
-          for (const k in endData.style) {
-            tempE.style[k] = endData.style[k];
+      setTimeout(() => {
+        for (const key in endData) {
+          if (key === 'style') {
+            for (const k in endData.style) {
+              tempE.style[k] = endData.style[k];
+            }
+          }
+          else {
+            tempE[key] = endData[key];
           }
         }
-        else {
-          tempE[key] = endData[key];
-        }
-      }
+      }, transitionDelay);
       return tempE
     }
     // 动画，卡牌逐渐放大并出现到会话框同样的位置
@@ -506,7 +509,7 @@
   }
 
   .hand {
-    aspect-ratio: 171/298;
+    aspect-ratio: 171 / 298;
     max-width: 171px;
     max-height: 298px;
     position: fixed;
@@ -681,7 +684,7 @@
     }
 
     .card-dialog-container {
-      width: 60vw;
+      width: 50vw;
       display: flex;
     }
 
