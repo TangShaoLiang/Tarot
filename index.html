@@ -285,13 +285,14 @@
         }
       }
       const handEndData = {
-        style: { 
+        style: {
           transform: 'rotate(-20deg) translateY(-50%)'
         }
       }
       var hand = this.createTempElement('img', handStartData, handEndData);
       // 沿着手的轨迹生成卡牌
       for (let i = 0; i < this.cardInfo.length; i++) {
+        var delay = i === this.cardInfo.length - 1 ? 2000 : 2000 / (this.cardInfo.length - 1) * i
         setTimeout(() => {
           var handRect = hand.getBoundingClientRect()
           var card = document.createElement('div')
@@ -311,7 +312,9 @@
 
           // 加入到dom中
           document.body.appendChild(card)
-        }, 2000 / (this.cardInfo.length - 1) * i);
+
+          // 设置延迟时间，若为最后一张牌则延迟时间为2000，否则为2000 / (总张数 - 1) * i
+        }, delay);
       }
     }
     // 翻牌
@@ -486,6 +489,7 @@
     transition: transform 2s linear;
     z-index: 999;
   }
+
   .card-in-hand {
     position: fixed;
     top: 0;
