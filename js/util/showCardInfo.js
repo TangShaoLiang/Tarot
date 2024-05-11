@@ -16,29 +16,30 @@ function showCardInfo(card) {
 // 动画，卡牌逐渐放大并出现到会话框同样的位置
 function showCardInfoAnimate(card) {
   // 获取起始位置、尺寸，以及目标位置、尺寸
-  var fromImgRect = card.getBoundingClientRect()
-  var toImgRect = this.dom.dialogImg.getBoundingClientRect()
-  var start = {
+  const fromImgRect = card.getBoundingClientRect()
+  const toImgRect = this.dom.dialogImg.getBoundingClientRect()
+  const isUpright = card.info.position === 'Upright'
+  const start = {
     x: fromImgRect.left,
     y: fromImgRect.top,
     w: fromImgRect.width,
     h: fromImgRect.height
   }
-  var end = {
+  const end = {
     x: toImgRect.left,
     y: toImgRect.top,
     w: toImgRect.width,
     h: toImgRect.height
   }
-  var startData = {
-    className: 'card-dialog-img-show',
+  const startData = {
+    className: 'card card-dialog-img-show',
     src: card.info.imgSrc,
     style: {
-      transform: `translateX(${start.x}px) translateY(${start.y}px)`,
-      width: `${start.w}px`,
+      transform: `translateX(${start.x}px) translateY(${start.y}px) rotate(${isUpright ? 0 : '180'}deg)`,
+      transition: `transform ${0.2 + Math.abs((start.x - start.w / 2) - (end.x - end.w / 2)) / screen.width * 0.3 + (isUpright ? 0 : 0.3)}s ease-out`
     }
   }
-  var endData = {
+  const endData = {
     style: {
       transform: `translateX(${end.x + (end.w - start.w) / 2}px) translateY(${end.y + (end.h - start.h) / 2}px) scale(${end.w / start.w})`
     }

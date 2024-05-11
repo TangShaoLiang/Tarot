@@ -24,9 +24,8 @@ function createDeck() {
       let card = document.createElement('img')
       const orginTransform = {
         x: screen.width / 2 - hand.offsetWidth / 2,
-        y: -screen.height / 2 * 0.7,
+        y: -screen.height / 2
       }
-      console.log(orginTransform);
       const cardInHandTransform = {
         x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,
         y: handRect.top + handRect.height / 2 - hand.offsetHeight / 2,
@@ -37,14 +36,14 @@ function createDeck() {
       card.src = this.cardBackSrc
       // 设置卡牌初始位置
       card.style.transform = `translate(${orginTransform.x}px, ${orginTransform.y}px) rotate(${cardInHandTransform.r}deg)`
-      card.style.transition = `transform 1s ease-in-out`
+      card.style.transition = `transform .5s ease-in-out`
 
       // 添加抽牌事件监听器
       card.addEventListener('click', () => {
         if (this.cardFlippedCount === this.spreadInfo.cardCount) {
           return
         }
-        var index = this.cardFlippedCount++
+        const index = this.cardFlippedCount++
         const placeholder = this.dom.placeholderList[index]
         const placeholderRect = placeholder.getBoundingClientRect()
         const cardOnTableTransform = {
