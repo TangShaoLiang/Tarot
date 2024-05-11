@@ -193,7 +193,9 @@
     text-align: center;
     font-family: GeTeShi;
     display: block;
-    transform: translateY(-1.5rem);
+    transform: translateY(-10px);
+  }
+  .placeholder.flippable::before {
     animation: appear .5s ease-in-out;
   }
 
@@ -291,8 +293,8 @@
       left: 37vw;
     }
 
-    .card.flipped::after {
-      transform: translateY(43vw)
+    .flipped::after {
+      transform: translateY(40vw)
     }
 
     .card-in-hand {
@@ -326,8 +328,8 @@
       height: 40vh;
     }
 
-    .card.flipped::after {
-      transform: translateY(38vh)
+    .flipped::after {
+      transform: translateY(39vh)
     }
 
     .hand {
