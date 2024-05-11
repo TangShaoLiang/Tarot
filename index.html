@@ -146,19 +146,16 @@
     height: 100vh;
   }
 
-  .card {
+  .card,
+  .hand {
     aspect-ratio: 300/518;
     /* max-width: 300px;
     max-height: 518px; */
     border-radius: 10px;
     background-size: cover;
-    transform: rotateY(0deg);
   }
 
   .hand {
-    aspect-ratio: 300/518;
-    /* max-width: 300px;
-    max-height: 518px; */
     position: fixed;
     background-size: cover;
     top: 0;
@@ -202,9 +199,11 @@
     text-align: center;
     font-family: GeTeShi;
   }
+
   .flippable>.card-before {
     animation: appear .5s ease-out;
   }
+
   .card-after {
     position: relative;
     display: block;
@@ -238,10 +237,12 @@
       transform: rotateY(0deg);
     }
   }
+
   @keyframes appear {
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
     }
