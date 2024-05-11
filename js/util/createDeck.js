@@ -14,10 +14,11 @@ function createDeck() {
   }
   // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
   const transitionDelay = 1000
+  const transitionTime = 1000
   const hand = this.action.createTempElement('img', handStartData, handEndData, transitionDelay);
   // 沿着手的轨迹生成卡牌
   for (let i = 0; i < this.cardInfo.length; i++) {
-    const delay = i === this.cardInfo.length - 1 ? 990 + transitionDelay : 1000 / (this.cardInfo.length - 1) * i + transitionDelay
+    const delay = i === this.cardInfo.length - 1 ? transitionTime - 10 + transitionDelay : transitionTime / (this.cardInfo.length - 1) * i + transitionDelay
     setTimeout(() => {
       const handRect = hand.getBoundingClientRect()
       let card = document.createElement('img')
@@ -25,6 +26,7 @@ function createDeck() {
         x: screen.width / 2 - hand.offsetWidth / 2,
         y: -screen.height / 2 * 0.7,
       }
+      console.log(orginTransform);
       const cardInHandTransform = {
         x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,
         y: handRect.top + handRect.height / 2 - hand.offsetHeight / 2,
@@ -34,7 +36,8 @@ function createDeck() {
       card.classList.add('card-in-hand')
       card.src = this.cardBackSrc
       // 设置卡牌初始位置
-      card.style.transform = `translateX(${orginTransform.x}px, ${orginTransform.y}px)`
+      card.style.transform = `translate(${orginTransform.x}px, ${orginTransform.y}px) rotate(${cardInHandTransform.r}deg)`
+      card.style.transition = `transform 1s ease-in-out`
 
       // 添加抽牌事件监听器
       card.addEventListener('click', () => {
@@ -49,6 +52,7 @@ function createDeck() {
           y: placeholderRect.top,
         }
         card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
+        card.style.transition = ''
         // 当过渡动画结束
         card.addEventListener('transitionend', () => {
           // 把placeholder的透明度设置为1
@@ -72,7 +76,10 @@ function createDeck() {
 
       // 加入到dom中
       document.body.appendChild(card)
+      // 强制渲染
+      card.clientWidth
       card.style.transform = `translate(${cardInHandTransform.x}px, ${cardInHandTransform.y}px) rotate(${cardInHandTransform.r}deg)`
+
 
       // 设置延迟时间，若为最后一张牌则延迟时间为2000，否则为2000 / (总张数 - 1) * i
     }, delay);
