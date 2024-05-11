@@ -7,9 +7,9 @@ function flipCard(card, index) {
   card.classList.add('flipped');
   card.addEventListener('click', () => { this.action.showCardInfo(card) });
   setTimeout(() => {
-    card.info = this.cardInfo[this.cardIdList[index]];
+    card.info = {...card.info, ...this.cardInfo[this.cardIdList[index]]};
     card.src = card.info.imgSrc;
-    card.before.innerText = card.info.romanNumeral;
+    card.before.innerText = card.info.name;
     card.after.innerText = card.info.enName;
   }, 250);
 }

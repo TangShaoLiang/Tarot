@@ -89,9 +89,8 @@
       // 初始化
       this.init();
     }
-
+    // 初始化
     init() {
-
       // 生成随机牌组
       this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
       // 截取前cardCount张（暂时决定不截取）
@@ -112,10 +111,14 @@
     }
 
     bindPlaceholder() {
-      this.dom.placeholderList.forEach(placeholder => {
+      this.dom.placeholderList.forEach((placeholder, index) => {
         placeholder.img = placeholder.children[1];
         placeholder.img.before = placeholder.children[0];
         placeholder.img.after = placeholder.children[2];
+        placeholder.img.info = {
+          spread: this.spreadInfo.name,
+          meaning: this.spreadInfo.meaning,
+        }
       })
     }
 
