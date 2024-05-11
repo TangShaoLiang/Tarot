@@ -7,9 +7,25 @@ function flipCard(card, index) {
   card.classList.add('flipped');
   card.addEventListener('click', () => { this.action.showCardInfo(card) });
   setTimeout(() => {
-    card.info = {...card.info, ...this.cardInfo[this.cardIdList[index]]};
+    // 设置卡牌信息
+    card.info = { ...card.info, ...this.cardInfo[this.cardIdList[index]] };
+    // 设置卡牌图片
     card.src = card.info.imgSrc;
+    // 设置卡牌名称
     card.before.innerText = card.info.name;
+    // 设置卡牌英文名称
     card.after.innerText = card.info.enName;
+    // 随机设置牌位
+    if (Math.random() < 0.5) {
+      card.classList.add('reversed');
+      card.info.position = 'Reversed';
+      // card.before.innerText += ' (逆位) ';
+      card.style.transform = 'rotate(180deg)';
+    }
+    else {
+      card.classList.remove('upright');
+      card.info.position = 'Upright';
+      // card.before.innerText += ' (正位) ';
+    }
   }, 250);
 }
