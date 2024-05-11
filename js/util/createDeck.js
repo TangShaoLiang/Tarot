@@ -14,7 +14,7 @@ function createDeck() {
   }
   // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
   const transitionDelay = 1000
-  const hand = this.createTempElement('img', handStartData, handEndData, transitionDelay);
+  const hand = this.action.createTempElement('img', handStartData, handEndData, transitionDelay);
   // 沿着手的轨迹生成卡牌
   for (let i = 0; i < this.cardInfo.length; i++) {
     const delay = i === this.cardInfo.length - 1 ? 1490 + transitionDelay : 1500 / (this.cardInfo.length - 1) * i + transitionDelay
@@ -55,7 +55,7 @@ function createDeck() {
           card.remove()
           card = placeholder
           // 设置翻牌事件监听器
-          card.addEventListener('click', () => { this.flipCard(card, index); }, { once: true });
+          card.addEventListener('click', () => { this.action.flipCard(card, index); }, { once: true });
         })
         if (this.cardFlippedCount === this.cardCount) {
           // 播放收牌动画

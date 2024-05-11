@@ -1,7 +1,7 @@
 // 翻牌
 function flipCard(card, index) {
   card.classList.add('flipped');
-  card.addEventListener('click', () => { this.showCardInfo(card) });
+  card.addEventListener('click', () => { this.action.showCardInfo(card) });
   setTimeout(() => {
     card.info = this.cardInfo[this.cardIdList[index]];
     card.src = card.info.imgSrc;

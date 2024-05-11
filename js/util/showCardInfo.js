@@ -44,7 +44,7 @@ function showCardInfoAnimate(card) {
     }
   }
   // 创建临时卡牌，运行动画，动画结束后，临时卡牌自动销毁
-  this.createTempElement('img', startData, endData, 0, 100, () => {
+  this.action.createTempElement('img', startData, endData, 0, 100, () => {
     this.dom.dialog.classList.remove('hidden');
   })
 }
