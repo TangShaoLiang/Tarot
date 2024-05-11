@@ -54,7 +54,7 @@ function createDeck() {
           // 把placeholder的透明度设置为1
           placeholder.style.opacity = 1
           // 在卡牌上方显示卡牌的含义
-placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
+          placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
           placeholder.classList.add('flippable')
           // 将当前card移除，card变量指向placeholder中的img
           card.remove()

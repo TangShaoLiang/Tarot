@@ -14,14 +14,14 @@
   <!-- 展示卡牌详情动画 -->
   <main>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-          </div>
+      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+    </div>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-          </div>
+      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+    </div>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-          </div>
+      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+    </div>
 
   </main>
 
@@ -107,9 +107,9 @@
 
     bindPlaceholder() {
       this.dom.placeholderList.forEach(placeholder => {
-        placeholder.img = placeholder.children[1];
-        placeholder.img.before = placeholder.children[0];
-        placeholder.img.after = placeholder.children[2];
+        placeholder.img = placeholder.children[0];
+        // placeholder.img.before = placeholder.children[0];
+        // placeholder.img.after = placeholder.children[2];
       })
     }
 
@@ -187,14 +187,15 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
-/* 使用rem作为单位而非vw或vh，存在隐患 */
+  /* 使用rem作为单位而非vw或vh，存在隐患 */
   .placeholder::before {
     content: attr(data-roman-numeral);
     text-align: center;
     font-family: GeTeShi;
-  display: block;
+    display: block;
     transform: translateY(-10px);
   }
+
   .placeholder.flippable::before {
     animation: appear .5s ease-in-out;
   }
@@ -204,7 +205,7 @@
     line-height: 14px;
     text-align: center;
     font-family: GeTeShi;
-display: block;
+    display: block;
     transform: translateY(4px);
   }
 
@@ -230,10 +231,12 @@ display: block;
       transform: rotateY(0deg);
     }
   }
+
   @keyframes appear {
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
     }
