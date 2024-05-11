@@ -14,14 +14,14 @@
   <!-- 展示卡牌详情动画 -->
   <main>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-    </div>
+            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+          </div>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-    </div>
+            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+          </div>
     <div class="placeholder" data-en-name="" data-roman-numeral="">
-      <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
-    </div>
+            <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
+          </div>
 
   </main>
 
@@ -77,8 +77,6 @@
       this.cardInfo = cardData
       // 牌阵的信息
       this.spreadInfo = spreadData[0]
-      // 该种牌阵所需的卡牌数量
-      this.cardCount = 3;
       // 已经翻开的牌的数量
       this.cardFlippedCount = 0
 
@@ -109,8 +107,9 @@
 
     bindPlaceholder() {
       this.dom.placeholderList.forEach(placeholder => {
-        placeholder.img = placeholder.children[0];
-        console.log(placeholder.img);
+        placeholder.img = placeholder.children[1];
+        placeholder.img.before = placeholder.children[0];
+        placeholder.img.after = placeholder.children[2];
       })
     }
 
@@ -159,8 +158,9 @@
     top: 0;
     /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
     transform-origin: 50% -70vw;
-    transition: transform 1.5s linear;
-    z-index: 999;
+    transition: transform 1s linear;
+    /* z-index: 999; */
+    opacity: 0;
   }
 
   .card-in-hand {
@@ -187,12 +187,12 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
-  /* 使用rem作为单位而非vw或vh，存在隐患 */
+/* 使用rem作为单位而非vw或vh，存在隐患 */
   .placeholder::before {
     content: attr(data-roman-numeral);
     text-align: center;
     font-family: GeTeShi;
-    display: block;
+  display: block;
     transform: translateY(-10px);
   }
   .placeholder.flippable::before {
@@ -204,7 +204,7 @@
     line-height: 14px;
     text-align: center;
     font-family: GeTeShi;
-    display: block;
+display: block;
     transform: translateY(4px);
   }
 
@@ -255,7 +255,7 @@
 
   .card-dialog.hidden {
     opacity: 0;
-    transition: opacity .1s ease-in;
+    /* transition: opacity .1s ease-in; */
   }
 
   .card-dialog-img {

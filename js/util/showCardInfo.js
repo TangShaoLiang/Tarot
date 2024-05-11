@@ -1,6 +1,5 @@
 // 展示卡牌详情
 function showCardInfo(card) {
-  console.log(this);
   // 设置会话框中卡牌的图片、名称、说明
   this.dom.dialogImg.src = card.info.imgSrc;
   this.dom.dialogInfoTitle.innerText = card.info.name;
@@ -56,8 +55,6 @@ function showCardInfoAnimate(card) {
 function closeCardInfo(event) {
   if (event.target.classList[0] === 'card-dialog' || event.target.classList[0] === 'card-dialog-container') {
     this.dom.dialog.classList.add('hidden');
-    setTimeout(() => {
-      this.dom.dialog.close();
-    }, 100);
+    this.dom.dialog.close();
   }
 }

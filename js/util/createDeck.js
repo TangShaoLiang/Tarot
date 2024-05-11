@@ -17,10 +17,14 @@ function createDeck() {
   const hand = this.action.createTempElement('img', handStartData, handEndData, transitionDelay);
   // 沿着手的轨迹生成卡牌
   for (let i = 0; i < this.cardInfo.length; i++) {
-    const delay = i === this.cardInfo.length - 1 ? 1490 + transitionDelay : 1500 / (this.cardInfo.length - 1) * i + transitionDelay
+    const delay = i === this.cardInfo.length - 1 ? 990 + transitionDelay : 1000 / (this.cardInfo.length - 1) * i + transitionDelay
     setTimeout(() => {
       const handRect = hand.getBoundingClientRect()
       let card = document.createElement('img')
+      const orginTransform = {
+        x: screen.width / 2 - hand.offsetWidth / 2,
+        y: -screen.height / 2 * 0.7,
+      }
       const cardInHandTransform = {
         x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,
         y: handRect.top + handRect.height / 2 - hand.offsetHeight / 2,
@@ -29,7 +33,8 @@ function createDeck() {
       card.classList.add('card')
       card.classList.add('card-in-hand')
       card.src = this.cardBackSrc
-      card.style.transform = `translate(${cardInHandTransform.x}px, ${cardInHandTransform.y}px) rotate(${cardInHandTransform.r}deg)`
+      // 设置卡牌初始位置
+      card.style.transform = `translateX(${orginTransform.x}px, ${orginTransform.y}px)`
 
       // 添加抽牌事件监听器
       card.addEventListener('click', () => {
@@ -38,7 +43,6 @@ function createDeck() {
         }
         var index = this.cardFlippedCount++
         const placeholder = this.dom.placeholderList[index]
-        console.log(this.dom.placeholderList);
         const placeholderRect = placeholder.getBoundingClientRect()
         const cardOnTableTransform = {
           x: placeholderRect.left,
@@ -47,18 +51,19 @@ function createDeck() {
         card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
         // 当过渡动画结束
         card.addEventListener('transitionend', () => {
-          // 把placeholder的透明度设置为1，
+          // 把placeholder的透明度设置为1
           placeholder.style.opacity = 1
-          placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
+          // 在卡牌上方显示卡牌的含义
+placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
           placeholder.classList.add('flippable')
           // 将当前card移除，card变量指向placeholder中的img
           card.remove()
           card = placeholder.img
-          // 将placeholder中的img变为可翻开的卡牌
+          // 将placeholder与其中的img变为可翻开的卡牌
           card.classList.add('flippable')
           // 设置翻牌事件监听器
           card.addEventListener('click', () => { this.action.flipCard(card, index); }, { once: true });
-        })
+        }, { once: true })
         if (this.cardFlippedCount === this.spreadInfo.cardCount) {
           // 播放收牌动画
           // 移除牌组中所有卡牌的抽牌事件监听器
@@ -67,6 +72,7 @@ function createDeck() {
 
       // 加入到dom中
       document.body.appendChild(card)
+      card.style.transform = `translate(${cardInHandTransform.x}px, ${cardInHandTransform.y}px) rotate(${cardInHandTransform.r}deg)`
 
       // 设置延迟时间，若为最后一张牌则延迟时间为2000，否则为2000 / (总张数 - 1) * i
     }, delay);
