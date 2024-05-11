@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tarot</title>
-  <script src="./js/cardData.js"></script>
 </head>
 
 <body>
@@ -43,6 +42,12 @@
 </body>
 
 
+<script src="./js/cardData.js"></script>
+<script src="./js/util/createDeck.js"></script>
+<script src="./js/util/createTempElement.js"></script>
+<script src="./js/util/flipCard.js"></script>
+<script src="./js/util/preloadImages.js"></script>
+<script src="./js/util/showCardInfo.js"></script>
 <script>
   class UI {
     constructor() {
@@ -55,6 +60,13 @@
       this.dom.dialogInfoTitle = this.dom.dialog.querySelector('.card-dialog-info-title');
       this.dom.dialogInfoKeyword = this.dom.dialog.querySelector('.card-dialog-info-keyword');
       this.dom.dialogInfoDisc = this.dom.dialog.querySelector('.card-dialog-info-disc');
+
+      this.createDeck = createDeck.bind(this);
+      this.createTempElement = createTempElement.bind(this);
+      this.flipCard = flipCard.bind(this);
+      this.preloadImages = preloadImages.bind(this);
+      this.showCardInfo = showCardInfo.bind(this);
+      this.closeCardInfo = closeCardInfo.bind(this);
 
       // 牌背的src
       this.cardBackSrc = './img/cardImg/outline/剪影 (牌背).jpg'
@@ -82,207 +94,7 @@
     listenEvent() {
       this.dom.dialog.addEventListener('click', (event) => { this.closeCardInfo(event) });
     }
-    // 生成牌组
-    createDeck() {
-      // 创建从屏幕顶部划过的手
-      const handStartData = {
-        className: 'hand',
-        style: {
-          transform: 'rotate(20deg) translateY(-50%)'
-        }
-      }
-      const handEndData = {
-        style: {
-          transform: 'rotate(-20deg) translateY(-50%)'
-        }
-      }
-      // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
-      const transitionDelay = 1000
-      const hand = this.createTempElement('img', handStartData, handEndData, transitionDelay);
-      // 沿着手的轨迹生成卡牌
-      for (let i = 0; i < this.cardInfo.length; i++) {
-        const delay = i === this.cardInfo.length - 1 ? 1490 + transitionDelay : 1500 / (this.cardInfo.length - 1) * i + transitionDelay
-        setTimeout(() => {
-          const handRect = hand.getBoundingClientRect()
-          let card = document.createElement('img')
-          const cardInHandTransform = {
-            x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,
-            y: handRect.top + handRect.height / 2 - hand.offsetHeight / 2,
-            r: 20 - 40 / (this.cardInfo.length - 1) * i
-          }
-          card.classList.add('card')
-          card.classList.add('card-in-hand')
-          card.src = this.cardBackSrc
-          card.style.transform = `translate(${cardInHandTransform.x}px, ${cardInHandTransform.y}px) rotate(${cardInHandTransform.r}deg)`
-
-          // 添加抽牌事件监听器
-          card.addEventListener('click', () => {
-            if (this.cardFlippedCount === this.cardCount) {
-              return
-            }
-            var index = this.cardFlippedCount++
-            const placeholder = this.dom.cardList[index]
-            console.log(this.dom.cardList);
-            const placeholderRect = placeholder.getBoundingClientRect()
-            const cardOnTableTransform = {
-              x: placeholderRect.left,
-              y: placeholderRect.top,
-            }
-            card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
-            // 当过渡动画结束
-            card.addEventListener('transitionend', () => {
-              // 将placeholder变为可翻开的卡牌
-              placeholder.classList.remove('placeholder')
-              placeholder.classList.add('flippable')
-              placeholder.src = this.cardBackSrc
-              // 将当前card移除，card变量指向placeholder
-              card.remove()
-              card = placeholder
-              // 设置翻牌事件监听器
-              card.addEventListener('click', () => { this.flipCard(card, index); }, { once: true });
-            })
-            if (this.cardFlippedCount === this.cardCount) {
-              // 播放收牌动画
-              // 移除牌组中所有卡牌的抽牌事件监听器
-            }
-          })
-
-          // 加入到dom中
-          document.body.appendChild(card)
-
-          // 设置延迟时间，若为最后一张牌则延迟时间为2000，否则为2000 / (总张数 - 1) * i
-        }, delay);
-      }
-    }
-    // 翻牌
-    flipCard(card, index) {
-      card.classList.add('flipped');
-      card.addEventListener('click', () => { this.showCardInfo(card) });
-      setTimeout(() => {
-        card.info = this.cardInfo[this.cardIdList[index]];
-        card.src = card.info.imgSrc;
-        console.log(card.info.imgSrc);
-        console.log(card.style.backgroundImage);
-        this.showCardRomanNumeral(card);
-        this.showCardEnName(card);
-      }, 250);
-    }
-    showCardRomanNumeral(card) {
-      card.setAttribute('data-roman-numeral', card.info.romanNumeral);
-    }
-    showCardEnName(card) {
-      card.setAttribute('data-en-name', card.info.enName);
-    }
-    // 展示卡牌详情
-    showCardInfo(card) {
-      // 设置会话框中卡牌的图片、名称、说明
-      this.dom.dialogImg.src = card.info.imgSrc;
-      this.dom.dialogInfoTitle.innerText = card.info.name;
-      this.dom.dialogInfoKeyword.innerText = card.info.keyword;
-      this.dom.dialogInfoDisc.innerText = card.info.disc;
-      // 展示带遮罩的会话框
-      this.dom.dialog.showModal();
-      // 如果不延时10ms（≤1ms不行），首次展示会话框时，end.y会有偏差，在5px左右（原因未知，猜测是由于浏览器的渲染机制，重排需要一定时间）
-      setTimeout(() => {
-        this.showCardInfoAnimate(card);
-      }, 10);
-    }
-    // 创建临时元素通用，返回创建的临时元素（元素类型，起始属性，目标属性，自毁延迟时间，自毁前的回调函数）
-    createTempElement(elementType, startData, endData, transitionDelay = 0, removeDelay = 0, callback = () => { }) {
-      // 创建临时元素
-      var tempE = document.createElement(elementType);
-      // 设置初始状态
-      for (const key in startData) {
-        if (key === 'style') {
-          for (const k in startData.style) {
-            tempE.style[k] = startData.style[k];
-          }
-        }
-        else {
-          tempE[key] = startData[key];
-        }
-      }
-      // 加入到dom中
-      document.body.appendChild(tempE);
-      // 强制渲染
-      tempE.clientWidth
-      // 设置动画结束后，临时卡牌自动销毁
-      tempE.addEventListener('transitionend', () => {
-        callback();
-        setTimeout(() => {
-          tempE.remove();
-        }, removeDelay);
-      }, { once: true })
-      // 设置目标状态，利用transition使临时元素运动
-      setTimeout(() => {
-        for (const key in endData) {
-          if (key === 'style') {
-            for (const k in endData.style) {
-              tempE.style[k] = endData.style[k];
-            }
-          }
-          else {
-            tempE[key] = endData[key];
-          }
-        }
-      }, transitionDelay);
-      return tempE
-    }
-    // 动画，卡牌逐渐放大并出现到会话框同样的位置
-    showCardInfoAnimate(card) {
-      // 获取起始位置、尺寸，以及目标位置、尺寸
-      var fromImgRect = card.getBoundingClientRect()
-      var toImgRect = this.dom.dialogImg.getBoundingClientRect()
-      var start = {
-        x: fromImgRect.left,
-        y: fromImgRect.top,
-        w: fromImgRect.width,
-        h: fromImgRect.height
-      }
-      var end = {
-        x: toImgRect.left,
-        y: toImgRect.top,
-        w: toImgRect.width,
-        h: toImgRect.height
-      }
-      var startData = {
-        className: 'card-dialog-img-show',
-        src: card.info.imgSrc,
-        style: {
-          transform: `translateX(${start.x}px) translateY(${start.y}px)`,
-          width: `${start.w}px`,
-        }
-      }
-      var endData = {
-        style: {
-          transform: `translateX(${end.x + (end.w - start.w) / 2}px) translateY(${end.y + (end.h - start.h) / 2}px) scale(${end.w / start.w})`
-        }
-      }
-      // 创建临时卡牌，运行动画，动画结束后，临时卡牌自动销毁
-      this.createTempElement('img', startData, endData, 0, 100, () => {
-        this.dom.dialog.classList.remove('hidden');
-      })
-    }
-    // 关闭卡牌详情
-    closeCardInfo(event) {
-      if (event.target.classList[0] === 'card-dialog' || event.target.classList[0] === 'card-dialog-container') {
-        this.dom.dialog.classList.add('hidden');
-        setTimeout(() => {
-          this.dom.dialog.close();
-        }, 100);
-      }
-    }
-    // 通过创建Image对象的方式，预加载单个图片
-    preloadImage(url) {
-      var img = new Image();
-      img.src = url;
-    }
-    // 按打乱后的次序，预加载所有卡牌的图片
-    preloadImages() {
-      this.cardIdList.forEach(cardId => {
-        this.preloadImage(this.cardInfo[cardId].imgSrc);
-      })
-    }
+    
   }
 
   var ui = new UI()
