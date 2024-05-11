@@ -147,7 +147,8 @@
   }
 
   .card,
-  .hand {
+  .hand,
+  .placeholder {
     aspect-ratio: 300/518;
     /* max-width: 300px;
     max-height: 518px; */
@@ -182,7 +183,7 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
-  .flipped {
+  .placeholder.flipped {
     animation: flip .5s ease-in-out forwards;
   }
 
@@ -295,7 +296,8 @@
   @media (max-aspect-ratio: 1/1) {
 
     .card,
-    .hand {
+    .hand,
+    .placeholder {
       width: 26vw;
     }
 
@@ -330,7 +332,8 @@
   @media (min-aspect-ratio: 1/1) {
 
     .card,
-    .hand {
+    .hand,
+    .placeholder {
       height: 40vh;
     }
 
