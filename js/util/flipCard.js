@@ -9,8 +9,7 @@ function flipCard(card, index) {
   setTimeout(() => {
     card.info = this.cardInfo[this.cardIdList[index]];
     card.src = card.info.imgSrc;
-    console.log(card.info.imgSrc);
-    placeholder.setAttribute('data-roman-numeral', card.info.romanNumeral);
-    placeholder.setAttribute('data-en-name', card.info.enName);
+    card.before.innerText = card.info.romanNumeral;
+    card.after.innerText = card.info.enName;
   }, 250);
 }

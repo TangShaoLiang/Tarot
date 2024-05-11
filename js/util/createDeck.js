@@ -53,13 +53,13 @@ function createDeck() {
         card.addEventListener('transitionend', () => {
           // 把placeholder的透明度设置为1
           placeholder.style.opacity = 1
-          // 在卡牌上方显示卡牌的含义
-          placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
-          placeholder.classList.add('flippable')
           // 将当前card移除，card变量指向placeholder中的img
           card.remove()
           card = placeholder.img
+          // 在卡牌上方显示卡牌的含义
+          card.before.innerText = this.spreadInfo.cardMeaning[index]
           // 将placeholder与其中的img变为可翻开的卡牌
+          placeholder.classList.add('flippable')
           card.classList.add('flippable')
           // 设置翻牌事件监听器
           card.addEventListener('click', () => { this.action.flipCard(card, index); }, { once: true });
