@@ -198,3 +198,11 @@ const cardData = [
     imgSrc: './img/cardImg/outline/剪影 (21).jpg'
   },
 ]
+
+const spreadData = [
+  {
+    name: '时间之箭',
+    cardCount: 3,
+    cardMeaning: ['过去', '现在', '未来'],
+  }
+]

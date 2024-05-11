@@ -33,12 +33,12 @@ function createDeck() {
 
       // 添加抽牌事件监听器
       card.addEventListener('click', () => {
-        if (this.cardFlippedCount === this.cardCount) {
+        if (this.cardFlippedCount === this.spreadInfo.cardCount) {
           return
         }
         var index = this.cardFlippedCount++
-        const placeholder = this.dom.cardList[index]
-        console.log(this.dom.cardList);
+        const placeholder = this.dom.placeholderList[index]
+        console.log(this.dom.placeholderList);
         const placeholderRect = placeholder.getBoundingClientRect()
         const cardOnTableTransform = {
           x: placeholderRect.left,
@@ -47,21 +47,23 @@ function createDeck() {
         card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
         // 当过渡动画结束
         card.addEventListener('transitionend', () => {
-          // 将placeholder变为可翻开的卡牌
-          placeholder.classList.remove('placeholder')
+          // 把placeholder的透明度设置为1，
+          placeholder.style.opacity = 1
+          placeholder.setAttribute('data-roman-numeral', this.spreadInfo.cardMeaning[index]);
           placeholder.classList.add('flippable')
-          placeholder.src = this.cardBackSrc
-          // 将当前card移除，card变量指向placeholder
+          // 将当前card移除，card变量指向placeholder中的img
           card.remove()
-          card = placeholder
+          card = placeholder.img
+          // 将placeholder中的img变为可翻开的卡牌
+          card.classList.add('flippable')
           // 设置翻牌事件监听器
           card.addEventListener('click', () => { this.action.flipCard(card, index); }, { once: true });
         })
-        if (this.cardFlippedCount === this.cardCount) {
+        if (this.cardFlippedCount === this.spreadInfo.cardCount) {
           // 播放收牌动画
           // 移除牌组中所有卡牌的抽牌事件监听器
         }
-      })
+      }, { once: true })
 
       // 加入到dom中
       document.body.appendChild(card)
@@ -70,3 +72,4 @@ function createDeck() {
     }, delay);
   }
 }
+

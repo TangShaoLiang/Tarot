@@ -1,5 +1,6 @@
 // 展示卡牌详情
 function showCardInfo(card) {
+  console.log(this);
   // 设置会话框中卡牌的图片、名称、说明
   this.dom.dialogImg.src = card.info.imgSrc;
   this.dom.dialogInfoTitle.innerText = card.info.name;
@@ -9,7 +10,7 @@ function showCardInfo(card) {
   this.dom.dialog.showModal();
   // 如果不延时10ms（≤1ms不行），首次展示会话框时，end.y会有偏差，在5px左右（原因未知，猜测是由于浏览器的渲染机制，重排需要一定时间）
   setTimeout(() => {
-    showCardInfoAnimate(card);
+    showCardInfoAnimate.bind(this)(card);
   }, 10);
 }
 
@@ -48,6 +49,9 @@ function showCardInfoAnimate(card) {
     this.dom.dialog.classList.remove('hidden');
   })
 }
+
+
+
 // 关闭卡牌详情
 function closeCardInfo(event) {
   if (event.target.classList[0] === 'card-dialog' || event.target.classList[0] === 'card-dialog-container') {
