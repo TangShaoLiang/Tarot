@@ -23,8 +23,8 @@ function createDeck() {
       const handRect = hand.getBoundingClientRect()
       let card = document.createElement('img')
       const orginTransform = {
-        x: screen.width / 2 - hand.offsetWidth / 2,
-        y: -screen.height / 2
+        x: window.innerWidth / 2 - hand.offsetWidth / 2,
+        y: -window.innerHeight / 2
       }
       const cardInHandTransform = {
         x: handRect.left + handRect.width / 2 - hand.offsetWidth / 2,

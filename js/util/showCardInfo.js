@@ -36,7 +36,7 @@ function showCardInfoAnimate(card) {
     src: card.info.imgSrc,
     style: {
       transform: `translateX(${start.x}px) translateY(${start.y}px) rotate(${isUpright ? 0 : '180'}deg)`,
-      transition: `transform ${0.2 + Math.abs((start.x - start.w / 2) - (end.x - end.w / 2)) / screen.width * 0.3 + (isUpright ? 0 : 0.3)}s ease-out`
+      transition: `transform ${0.2 + Math.abs((start.x - start.w / 2) - (end.x - end.w / 2)) / window.innerWidth * 0.3 + (isUpright ? 0 : 0.3)}s ease-out`
     }
   }
   const endData = {
