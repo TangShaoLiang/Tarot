@@ -67,6 +67,42 @@ img.flipped {
 }
 
 
-.card.show-info {
-  transition: all .5s ease-in;
-}
+
+
+  /* 竖屏时，宽高比小于1:1 */
+  @media (max-aspect-ratio: 1/1) {
+
+    .card,
+    .hand,
+    .placeholder {
+      width: calc(26vw);
+    }
+
+    .hand {
+      left: calc(37vw);
+    }
+
+    .card-in-hand {
+      transition: all .25s ease-in;
+    }
+
+  }
+
+  /* 横屏时，宽高比大于1:1 */
+  @media (min-aspect-ratio: 1/1) {
+
+    .card,
+    .hand,
+    .placeholder {
+      height: calc(40vh-0.5px);
+    }
+
+    .hand {
+      left: calc(50vw - 40vh * 300/518 / 2);
+    }
+
+    .card-in-hand {
+      transition: all .2s ease-in;
+    }
+
+  }
