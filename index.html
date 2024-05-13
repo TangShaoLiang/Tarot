@@ -13,17 +13,17 @@
   <!-- 翻牌动画 -->
   <!-- 展示卡牌详情动画 -->
   <main>
-    <div class="placeholder" data-en-name="❂" data-roman-numeral="">
+    <div class="placeholder" data-en-name="" data-roman-numeral="">
       <span class="card-before"></span>
       <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
       <span class="card-after"></span>
     </div>
-    <div class="placeholder" data-en-name="☪" data-roman-numeral="">
+    <div class="placeholder" data-en-name="" data-roman-numeral="">
       <span class="card-before"></span>
       <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
       <span class="card-after"></span>
     </div>
-    <div class="placeholder" data-en-name="✦" data-roman-numeral="">
+    <div class="placeholder" data-en-name="" data-roman-numeral="">
       <span class="card-before"></span>
       <img class="card" src="./img/cardImg/outline/剪影 (牌背).jpg"></img>
       <span class="card-after"></span>
@@ -156,12 +156,10 @@
     /* max-width: 300px;
     max-height: 518px; */
     border-radius: 10px;
-    background-size: cover;
   }
 
   .hand {
     position: fixed;
-    background-size: cover;
     top: 0;
     /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
     transform-origin: 50% -70vw;
@@ -173,8 +171,7 @@
   .card-in-hand {
     position: fixed;
     top: 0;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
-    transition: transform .1s ease-in-out;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 1);
   }
 
   .placeholder {
@@ -184,7 +181,7 @@
 
   img.flippable {
     cursor: pointer;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 1);
   }
 
   .placeholder.flipped {
@@ -192,7 +189,7 @@
   }
 
   img.flipped {
-    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 1);
   }
 
 
@@ -281,7 +278,6 @@
     position: fixed;
     left: 0;
     top: 0;
-    transition: all .5s ease-in;
   }
 
   .card-dialog-info-title {
