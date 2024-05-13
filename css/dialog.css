@@ -1,0 +1,82 @@
+.card-dialog {
+  border: none;
+  padding: 0;
+  outline: none;
+  background-color: transparent;
+  transition: opacity .1s ease-in;
+}
+
+.card-dialog-container {
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.card-dialog.hidden {
+  opacity: 0;
+  /* transition: opacity .1s ease-in; */
+}
+
+.card-dialog-img {
+  border-radius: 20px;
+}
+
+.card-dialog-img-show {
+  border-radius: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.card-dialog-info-title {
+  text-align: center;
+  font-size: 48px;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
+  font-family: GeTeShi;
+}
+
+.card-dialog-info-keyword {
+  text-align: center;
+}
+
+/* 竖屏时，宽高比小于1:1 */
+@media (max-aspect-ratio: 1/1) {
+
+  .card-dialog-container {
+    padding-top: 15vw;
+    display: block;
+  }
+
+  .card-dialog-img-container {
+    width: 70vw;
+    margin: auto;
+  }
+
+  .card-dialog-img {
+    width: 100%;
+  }
+
+  .card-dialog-info-disc {
+    width: fit-content;
+  }
+}
+
+
+/* 横屏时，宽高比大于1:1 */
+@media (min-aspect-ratio: 1/1) {
+
+  .card-dialog-container {
+    width: 60vw;
+    display: flex;
+  }
+
+  .card-dialog-img-container {
+    height: 70vh;
+    margin-right: 2rem;
+  }
+
+  .card-dialog-img {
+    height: 100%;
+  }
+}

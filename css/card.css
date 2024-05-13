@@ -1,0 +1,72 @@
+.card,
+.hand,
+.placeholder {
+  aspect-ratio: 300/518;
+  border-radius: 10px;
+}
+
+/*********************************************
+ * 在牌组中的卡牌。待抽取的卡牌
+*********************************************/
+.hand {
+  position: fixed;
+  top: 0;
+  /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
+  transform-origin: 50% -70vw;
+  transition: transform 1s linear;
+  opacity: 0;
+}
+
+.card-in-hand {
+  position: fixed;
+  top: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+/*********************************************
+ * 摆在桌上的卡牌，包括待翻开的，以及已翻开的卡牌
+*********************************************/
+.placeholder {
+  margin: 0 2.5vw;
+  opacity: 0;
+}
+
+img.flippable {
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.placeholder.flipped {
+  animation: flip .5s ease-in-out forwards;
+}
+
+img.flipped {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.card-before {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-bottom: 10px;
+  text-align: center;
+  font-family: GeTeShi;
+}
+
+.flippable>.card-before {
+  animation: appear .5s ease-out;
+}
+
+.card-after {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2em;
+  text-align: center;
+  font-family: GeTeShi;
+}
+
+
+.card.show-info {
+  transition: all .5s ease-in;
+}
