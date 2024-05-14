@@ -61,7 +61,7 @@ function createDeck() {
           card.remove()
           card = placeholder.img
           // 在卡牌上方显示卡牌的含义
-          card.before.innerText = this.spreadInfo.cardMeaning[index]
+          card.after.innerText = this.spreadInfo.cardMeaning[index]
           // 将placeholder与其中的img变为可翻开的卡牌
           placeholder.classList.add('flippable')
           card.classList.add('flippable')

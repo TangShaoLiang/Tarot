@@ -58,7 +58,7 @@ img.flipped {
   padding-bottom: 10px;
 }
 
-.flippable>.card-before {
+.flippable>.card-afterz {
   animation: appear .5s ease-out;
 }
 
