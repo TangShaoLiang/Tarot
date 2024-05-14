@@ -1,0 +1,115 @@
+/* 使用computeSize时，开启这个card.css */
+
+:root {
+  --card-width: 300px;
+  --card-height: 518px;
+}
+
+.card,
+.hand {
+  /* aspect-ratio: 300/518; */
+  border-radius: 10px;
+  width: var(--card-width);
+  height: var(--card-height);
+}
+
+/*********************************************
+ * 在牌组中的卡牌。待抽取的卡牌
+*********************************************/
+.hand {
+  position: fixed;
+  top: 0;
+  left: calc(50vw - var(--card-width) / 2);
+  /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
+  transform-origin: 50% -70vw;
+  transition: transform 1s linear;
+  opacity: 0;
+
+}
+
+.card-in-hand {
+  position: fixed;
+  top: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+/*********************************************
+ * 摆在桌上的卡牌，包括待翻开的，以及已翻开的卡牌
+*********************************************/
+.placeholder {
+  margin: 0 2.5vw;
+  opacity: 0;
+  text-wrap: wrap;
+  overflow: hidden;
+}
+
+img.flippable {
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.placeholder.flipped {
+  animation: flip .5s ease-in-out forwards;
+}
+
+img.flipped {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.card-before,
+.card-after {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-family: GeTeShi;
+}
+
+.card-before {
+  height: 16px;
+  padding-bottom: 10px;
+}
+
+.flippable>.card-before {
+  animation: appear .5s ease-out;
+}
+
+.card-after {
+  width: var(--card-width);
+  height: 48px;
+  padding-top: 4px;
+}
+
+
+
+/* 竖屏时，宽高比小于1:1 */
+@media (max-aspect-ratio: 1/1) {
+
+  /* .card,
+  .hand,
+  .card-after {
+    width: 26vw;
+  } */
+
+  .card-in-hand {
+    transition: all .25s ease-out;
+  }
+
+}
+
+/* 横屏时，宽高比大于1:1 */
+@media (min-aspect-ratio: 1/1) {
+
+  /* .card,
+  .hand {
+    height: 40vh;
+  } */
+
+  /* .card-after {
+    width: calc(40vh * 300/518);
+  } */
+
+  .card-in-hand {
+    transition: all .2s ease-out;
+  }
+
+}
