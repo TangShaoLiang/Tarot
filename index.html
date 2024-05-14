@@ -98,6 +98,7 @@
       this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
       // 截取前cardCount张（暂时决定不截取）
       // this.cardIdList = this.cardIdList.slice(0, this.spreadInfo.cardCount);
+      this.cardIdList = [10, 2, 21]
       // 添加监听器
       this.listenEvent();
       // 预加载图片

@@ -1,6 +1,5 @@
 .card,
-.hand,
-.placeholder {
+.hand {
   aspect-ratio: 300/518;
   border-radius: 10px;
 }
@@ -29,6 +28,8 @@
 .placeholder {
   margin: 0 2.5vw;
   opacity: 0;
+  text-wrap: wrap;
+  overflow: hidden;
 }
 
 img.flippable {
@@ -44,13 +45,17 @@ img.flipped {
   box-shadow: 0 0 4px rgba(0, 0, 0, 1);
 }
 
-.card-before {
+.card-before,
+.card-after {
   position: relative;
   display: block;
-  width: 100%;
-  padding-bottom: 10px;
   text-align: center;
   font-family: GeTeShi;
+}
+
+.card-before {
+  height: 16px;
+  padding-bottom: 10px;
 }
 
 .flippable>.card-before {
@@ -58,51 +63,50 @@ img.flipped {
 }
 
 .card-after {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 2em;
-  text-align: center;
-  font-family: GeTeShi;
+  height: 48px;
+  padding-top: 4px;
 }
 
 
 
 
-  /* 竖屏时，宽高比小于1:1 */
-  @media (max-aspect-ratio: 1/1) {
+/* 竖屏时，宽高比小于1:1 */
+@media (max-aspect-ratio: 1/1) {
 
-    .card,
-    .hand,
-    .placeholder {
-      width: calc(26vw);
-    }
-
-    .hand {
-      left: calc(37vw);
-    }
-
-    .card-in-hand {
-      transition: all .25s ease-in;
-    }
-
+  .card,
+  .hand,
+  .card-after {
+    width: 26vw;
   }
 
-  /* 横屏时，宽高比大于1:1 */
-  @media (min-aspect-ratio: 1/1) {
-
-    .card,
-    .hand,
-    .placeholder {
-      height: calc(40vh-0.5px);
-    }
-
-    .hand {
-      left: calc(50vw - 40vh * 300/518 / 2);
-    }
-
-    .card-in-hand {
-      transition: all .2s ease-in;
-    }
-
+  .hand {
+    left: 37vw;
   }
+
+  .card-in-hand {
+    transition: all .25s ease-out;
+  }
+
+}
+
+/* 横屏时，宽高比大于1:1 */
+@media (min-aspect-ratio: 1/1) {
+
+  .card,
+  .hand {
+    height: 40vh;
+  }
+
+  .card-after {
+    width: calc(40vh * 300/518);
+  }
+
+  .hand {
+    left: calc(50vw - 40vh * 300/518 / 2);
+  }
+
+  .card-in-hand {
+    transition: all .2s ease-out;
+  }
+
+}

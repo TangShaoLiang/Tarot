@@ -45,11 +45,12 @@ function createDeck() {
         }
         const index = this.cardFlippedCount++
         const placeholder = this.dom.placeholderList[index]
-        const placeholderRect = placeholder.getBoundingClientRect()
+        const placeholderRect = placeholder.img.getBoundingClientRect()
         const cardOnTableTransform = {
           x: placeholderRect.left,
           y: placeholderRect.top,
         }
+        console.log(cardOnTableTransform);
         card.style.transform = `translate(${cardOnTableTransform.x}px, ${cardOnTableTransform.y}px)`
         card.style.transition = ''
         // 当过渡动画结束
