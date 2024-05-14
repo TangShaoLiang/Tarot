@@ -4,6 +4,8 @@
   border-radius: 10px;
   width: var(--card-width);
   height: var(--card-height);
+  /* width: 100px;
+  height: 173px; */
 }
 
 /*********************************************
@@ -32,20 +34,26 @@
   margin: 0 2.5vw;
   opacity: 0;
   text-wrap: wrap;
-  overflow: hidden;
+  /* overflow: hidden; */
+  vertical-align: middle;
+  /* box-shadow: 0 0 4px rgba(0, 0, 0, 1); */
 }
 
-img.flippable {
+img.flippable,img.flipped {
   cursor: pointer;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 1);
 }
+
+/* .placeholder.flipping {
+  animation: flip 2.5s ease-in-out forwards;
+  transform: rotateY(0deg);
+  transition: transform .25s ease-out;
+} */
 
 .placeholder.flipped {
-  animation: flip .5s ease-in-out forwards;
-}
-
-img.flipped {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  animation: flip .5s ease-in-out;
+  /* transform: rotateY(90deg);
+  transition: transform .25s ease-in; */
 }
 
 .card-before,
@@ -61,7 +69,7 @@ img.flipped {
   padding-bottom: 10px;
 }
 
-.flippable>.card-afterz {
+.flippable>.card-after {
   animation: appear .5s ease-out;
 }
 
