@@ -1,7 +1,9 @@
 .card,
 .hand {
-  aspect-ratio: 300/518;
+  /* aspect-ratio: 300/518; */
   border-radius: 10px;
+  width: var(--card-width);
+  height: var(--card-height);
 }
 
 /*********************************************
@@ -10,6 +12,7 @@
 .hand {
   position: fixed;
   top: 0;
+  left: calc(50vw - var(--card-width) / 2);
   /* 这将是一个1:2:√5的等腰三角形，其度数大约是24°，适当缩小，变为20° */
   transform-origin: 50% -70vw;
   transition: transform 1s linear;
@@ -65,23 +68,13 @@ img.flipped {
 .card-after {
   height: 48px;
   padding-top: 4px;
+  width: var(--card-width);
 }
-
 
 
 
 /* 竖屏时，宽高比小于1:1 */
 @media (max-aspect-ratio: 1/1) {
-
-  .card,
-  .hand,
-  .card-after {
-    width: 26vw;
-  }
-
-  .hand {
-    left: 37vw;
-  }
 
   .card-in-hand {
     transition: all .25s ease-out;
@@ -91,19 +84,6 @@ img.flipped {
 
 /* 横屏时，宽高比大于1:1 */
 @media (min-aspect-ratio: 1/1) {
-
-  .card,
-  .hand {
-    height: 40vh;
-  }
-
-  .card-after {
-    width: calc(40vh * 300/518);
-  }
-
-  .hand {
-    left: calc(50vw - 40vh * 300/518 / 2);
-  }
 
   .card-in-hand {
     transition: all .2s ease-out;

@@ -157,6 +157,20 @@
     align-items: center;
     height: 100vh;
   }
+
+  /* 竖屏时，宽高比小于1:1 */
+  @media (max-aspect-ratio: 1/1) {
+    :root {
+      --card-width: 26vw;
+      --card-height: calc(26vw * 518 / 300);
+    }
+  }
+  @media (min-aspect-ratio: 1/1) {
+    :root {
+      --card-height: 40vh;
+      --card-width: calc(40vh * 300 / 518);
+    }
+  }
 </style>
 
 
