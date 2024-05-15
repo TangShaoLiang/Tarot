@@ -3,14 +3,10 @@ function createDeck() {
   // 创建从屏幕顶部划过的手
   const handStartData = {
     className: 'hand',
-    style: {
-      transform: 'rotate(20deg) translateY(-50%)'
-    }
+    style: { transform: 'rotate(20deg) translateY(-50%)' }
   }
   const handEndData = {
-    style: {
-      transform: 'rotate(-20deg) translateY(-50%)'
-    }
+    style: { transform: 'rotate(-20deg) translateY(-50%)' }
   }
   // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
   const transitionDelay = 0
