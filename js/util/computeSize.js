@@ -4,8 +4,8 @@ function computeSize() {
   const winW = window.innerWidth;
   const winH = window.innerHeight;
   // 如果屏幕过小
-  // if (winW < 300 / 0.26 || winH < 518 / 0.37) {
-  if (true) {
+  if (winW < 300 / 0.26 || winH < 518 / 0.37) {
+  // if (true) {
     // 则需要重新调整卡牌尺寸
     // 卡牌是img，只要设置宽/高，另一项尺寸是会自动调整的
     // 如果为竖屏
