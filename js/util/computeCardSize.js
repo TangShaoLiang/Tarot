@@ -1,5 +1,5 @@
 // 通过root，在页面初始化以及页面resize时，计算卡牌宽高，以使得卡牌尺寸为整数px
-function computeSize() {
+function computeCardSize() {
   const root = document.documentElement;
   const winW = window.innerWidth;
   const winH = window.innerHeight;
