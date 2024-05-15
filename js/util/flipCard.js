@@ -14,7 +14,7 @@ function flipCard(card, index) {
     // 设置卡牌信息
     card.info = { ...card.info, ...this.cardInfo[this.cardIdList[index]] };
     // 设置卡牌图片
-    // card.src = card.info.imgSrc;
+    card.src = card.info.imgSrc;
     // 设置卡牌名称
     card.before.innerText = card.info.romanNumeral;
     // 设置卡牌英文名称

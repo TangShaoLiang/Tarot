@@ -34,9 +34,7 @@
   margin: 0 2.5vw;
   opacity: 0;
   text-wrap: wrap;
-  /* overflow: hidden; */
-  vertical-align: middle;
-  /* box-shadow: 0 0 4px rgba(0, 0, 0, 1); */
+  /* background-color: antiquewhite; */
 }
 
 img.flippable,img.flipped {
@@ -44,29 +42,22 @@ img.flippable,img.flipped {
   box-shadow: 0 0 2px rgba(0, 0, 0, 1);
 }
 
-/* .placeholder.flipping {
-  animation: flip 2.5s ease-in-out forwards;
-  transform: rotateY(0deg);
-  transition: transform .25s ease-out;
-} */
-
 .placeholder.flipped {
-  animation: flip .5s ease-in-out;
-  /* transform: rotateY(90deg);
-  transition: transform .25s ease-in; */
+  animation: flip 1.5s ease-in-out;
 }
 
 .card-before,
 .card-after {
-  position: relative;
+  position: absolute;
   display: block;
+  width: var(--card-width);
   text-align: center;
   font-family: GeTeShi;
+  /* background-color: blue; */
 }
 
 .card-before {
-  height: 16px;
-  padding-bottom: 10px;
+  transform: translateY(-20px);
 }
 
 .flippable>.card-after {
@@ -76,7 +67,6 @@ img.flippable,img.flipped {
 .card-after {
   height: 48px;
   padding-top: 4px;
-  width: var(--card-width);
 }
 
 
