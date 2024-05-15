@@ -3,13 +3,14 @@ function computeCardSize() {
   const root = document.documentElement;
   const winW = window.innerWidth;
   const winH = window.innerHeight;
+  const card = this.dom.placeholderList[0].img;
   // 如果屏幕过小
   if (winW < 300 / 0.26 || winH < 518 / 0.37) {
-  // if (true) {
+    // if (true) {
     // 则需要重新调整卡牌尺寸
     // 卡牌是img，只要设置宽/高，另一项尺寸是会自动调整的
     // 如果为竖屏
-    var cardW, cardH;
+    var cardW = card.width, cardH = card.height;
     if (winH > winW) {
       cardW = Math.floor(winW * 0.26);
       cardH = Math.floor(cardW * 518 / 300);
@@ -22,6 +23,10 @@ function computeCardSize() {
     if ((winH - cardH) % 2 === 1) {
       cardH += 1;
     }
+    // // 令（屏幕宽度-卡牌宽度）为偶数（宽度用的是vw来作外边距，大概是没救了，算了）
+    // if ((winW - cardW) % 2 === 1) {
+    //   cardW += 1;
+    // }
     root.style.setProperty('--card-width', cardW + 'px');
     root.style.setProperty('--card-height', cardH + 'px');
   }

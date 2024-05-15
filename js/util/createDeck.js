@@ -13,7 +13,7 @@ function createDeck() {
     }
   }
   // 设置一个动画的起始延迟，为了使手机上能正常生成牌组
-  const transitionDelay = 1000
+  const transitionDelay = 0
   const transitionTime = 1000
   const hand = this.action.createTempElement('img', handStartData, handEndData, transitionDelay);
   // 沿着手的轨迹生成卡牌
@@ -87,3 +87,8 @@ function createDeck() {
   }
 }
 
+function removeDeck() {
+  Array.from(document.getElementsByClassName('card-in-hand')).forEach(card => {
+    card.remove()
+  })
+}

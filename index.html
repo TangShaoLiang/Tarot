@@ -74,6 +74,7 @@
       // 获取行动函数
       this.action = {
         createDeck: createDeck.bind(this),
+        removeDeck: removeDeck.bind(this),
         createTempElement: createTempElement.bind(this),
         computeCardSize: computeCardSize.bind(this),
         flipCard: flipCard.bind(this),
@@ -100,21 +101,30 @@
       this.cardIdList = Array.from({ length: this.cardInfo.length }, (_, i) => i).sort(() => Math.random() - 0.5);
       // 截取前cardCount张（暂时决定不截取）
       // this.cardIdList = this.cardIdList.slice(0, this.spreadInfo.cardCount);
-      // 添加监听器
-      this.listenEvent();
       // 预加载图片
       this.action.preloadImages();
-      // 生成牌组
-      this.action.createDeck();
       // 绑定占位元素与其内的图片
       this.bindPlaceholder();
       // 计算卡牌的尺寸
       this.action.computeCardSize();
+      // 添加监听器
+      this.listenEvent();
+
+
     }
 
     // 监听翻牌事件
     listenEvent() {
       this.dom.dialog.addEventListener('click', (event) => { this.action.closeCardInfo(event) });
+      // 生成牌组
+      window.addEventListener('load', () => {
+        this.action.createDeck();
+      }, { once: true });
+      window.addEventListener('resize', () => {
+        this.action.computeCardSize();
+        this.action.removeDeck();
+        this.action.createDeck();
+      });
     }
 
     bindPlaceholder() {
@@ -152,6 +162,7 @@
 
   body {
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
   }
 
   main {
@@ -168,6 +179,7 @@
       --card-height: calc(26vw * 518 / 300);
     }
   }
+
   @media (min-aspect-ratio: 1/1) {
     :root {
       --card-height: 40vh;

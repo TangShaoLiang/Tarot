@@ -34,6 +34,7 @@
   margin: 0 2.5vw;
   opacity: 0;
   text-wrap: wrap;
+  /* vertical-align: middle; */
   /* background-color: antiquewhite; */
 }
 
@@ -43,7 +44,7 @@ img.flippable,img.flipped {
 }
 
 .placeholder.flipped {
-  animation: flip 1.5s ease-in-out;
+  animation: flip .5s ease-in-out;
 }
 
 .card-before,
