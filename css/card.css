@@ -36,6 +36,7 @@
   text-wrap: wrap;
   /* vertical-align: middle; */
   /* background-color: antiquewhite; */
+  user-select: none;
 }
 
 img.flippable,img.flipped {
