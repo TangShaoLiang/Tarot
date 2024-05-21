@@ -113,7 +113,7 @@ const cardData = [
     name: '倒吊人',
     enName: 'The Hermit',
     keyword: '象征牺牲、等待和启示。',
-    disc: '吊人是一个倒挂的人形，脚踝被绑在一根杆子上。代表自我牺牲和从不同角度看问题。',
+    disc: '倒吊人是一个倒挂的人形，脚踝被绑在一根杆子上。代表自我牺牲和从不同角度看问题。',
     imgSrc: './img/cardImg/outline/剪影 (12).jpg'
   },
   {
@@ -198,6 +198,288 @@ const cardData = [
     imgSrc: './img/cardImg/outline/剪影 (21).jpg'
   },
 ]
+
+const cardData1 = [
+  {
+    number: 0,
+    romanNumeral: 'O',
+    name: '纸',
+    enName: '',
+    keyword: ['空白','未知','纯净','虚无','起始'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 1,
+    romanNumeral: 'I',
+    name: '女神',
+    enName: '',
+    keyword: ['完美','魅力','理想','全能','无暇'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 2,
+    romanNumeral: 'II',
+    name: '骑士',
+    enName: '',
+    keyword: ['忠诚','礼仪','守护','正义','坚定'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 3,
+    romanNumeral: 'II',
+    name: '眼',
+    enName: '',
+    keyword: ['注视','映射','秩序','控制','洞悉'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 4,
+    romanNumeral: 'II',
+    name: '面具',
+    enName: '',
+    keyword: ['隐藏','虚伪','人格','情绪','表现'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 5,
+    romanNumeral: 'II',
+    name: '旋律',
+    enName: '',
+    keyword: ['包容','和谐','引导','内在','沟通'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 6,
+    romanNumeral: 'II',
+    name: '骰子',
+    enName: '',
+    keyword: ['风险','利益','渴望','代价','诱惑'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 7,
+    romanNumeral: 'II',
+    name: '星星',
+    enName: '',
+    keyword: ['希望','灵性','方向','闪耀','愿望'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 8,
+    romanNumeral: 'II',
+    name: '太阳',
+    enName: '',
+    keyword: ['活力','积极','阳光','善良','自信'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 9,
+    romanNumeral: 'II',
+    name: '诗人',
+    enName: '',
+    keyword: ['感受','直觉','浪漫','幻想','孤独'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 10,
+    romanNumeral: 'II',
+    name: '花',
+    enName: '',
+    keyword: ['生命','情感','绽放','纯洁','祝福'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 11,
+    romanNumeral: 'II',
+    name: '塔',
+    enName: '',
+    keyword: ['智识','冷漠','高傲','理性','灾难'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 12,
+    romanNumeral: 'II',
+    name: '时钟',
+    enName: '',
+    keyword: ['计划','命运','时间','轮回','变化'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 13,
+    romanNumeral: 'II',
+    name: '墓碑',
+    enName: '',
+    keyword: ['记忆','铭刻','死亡','凋零','终结'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 14,
+    romanNumeral: 'II',
+    name: '锁',
+    enName: '',
+    keyword: ['封闭','谨慎','沉默','压抑','克制'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 15,
+    romanNumeral: 'II',
+    name: '侦探',
+    enName: '',
+    keyword: ['整合','逻辑','推理','线索','复盘'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 16,
+    romanNumeral: 'II',
+    name: '',
+    enName: '',
+    keyword: ['爆发','速度','破坏','力量','挣脱'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 17,
+    romanNumeral: 'II',
+    name: '子弹',
+    enName: '',
+    keyword: ['挣脱','速度','爆发','力量','破坏'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 18,
+    romanNumeral: 'II',
+    name: '镜子',
+    enName: '',
+    keyword: ['映照','面对','自我','幻觉','理解'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 19,
+    romanNumeral: 'II',
+    name: '魔术',
+    enName: '',
+    keyword: ['技巧','创造','惊喜','设计','神秘'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 20,
+    romanNumeral: 'II',
+    name: '王',
+    enName: '',
+    keyword: ['威严','责任','领导','财富','权力'],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 21,
+    romanNumeral: 'II',
+    name: '飞鸟',
+    enName: '',
+    keyword: ['','','自在','',''],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+  {
+    number: 22,
+    romanNumeral: 'II',
+    name: '蝴蝶',
+    enName: '',
+    keyword: ['美丽','脆弱','','迷茫',''],
+    disc: {
+      upright: '',
+      reversed: ''
+    },
+    imgSrc: './img/cardImg/'
+  },
+]
+
+
+
 
 const spreadData = [
   {

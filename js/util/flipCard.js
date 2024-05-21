@@ -22,13 +22,13 @@ function flipCard(card, index) {
     // 随机设置牌位
     if (Math.random() < 0.5) {
       card.classList.add('reversed');
-      card.info.position = 'Reversed';
+      card.info.position = 'reversed';
       // card.before.innerText += ' (逆位) ';
       card.style.transform = 'rotate(180deg)';
     }
     else {
       card.classList.remove('upright');
-      card.info.position = 'Upright';
+      card.info.position = 'upright';
       // card.before.innerText += ' (正位) ';
     }
   }, 250);

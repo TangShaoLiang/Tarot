@@ -18,7 +18,7 @@ function showCardInfoAnimate(card) {
   // 获取起始位置、尺寸，以及目标位置、尺寸
   const fromImgRect = card.getBoundingClientRect()
   const toImgRect = this.dom.dialogImg.getBoundingClientRect()
-  const isUpright = card.info.position === 'Upright'
+  const isUpright = card.info.position === 'upright'
   const start = {
     x: fromImgRect.left,
     y: fromImgRect.top,
